@@ -2,13 +2,16 @@ import os
 import json
 import requests
 import time
-from flask import Flask, request
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 count = 0
 data = {
     'transformers': json.load(open('db/transformers.json')),
-    'inventory': json.load(open('db/transformers.json')),
+    'inventory': json.load(open('db/inventory.json')),
     'tickets': json.load(open('db/tickets.json')),
     'health-history': json.load(open('db/health-history.json'))
 }
@@ -21,18 +24,20 @@ def base_index():
 
 
 @app.route('/transformers', methods=['GET'])
+@cross_origin()
 def get_transformer_list():
-    return str(data['transformers']), 200
+    return jsonify(data['transformers']), 200
 
 
 @app.route('/inventory', methods=['GET'])
+@cross_origin()
 def get_inventory_list():
-    return str(data['inventory']), 200
-
+    return jsonify(inventory=data['inventory'], status_code=200)
 
 @app.route('/tickets', methods=['GET'])
+@cross_origin()
 def get_tickets_list():
-    return str(data['tickets']), 200
+    return jsonify(data['tickets']), 200
 
 
 @app.route('/tickets-per-transformer', methods=['GET'])
@@ -46,8 +51,9 @@ def get_tickets_per_transformer_list(t_id):
     return str(tickets), 200
 
 @app.route('/health-history', methods=['GET'])
+@cross_origin()
 def get_health_history_list():
-    return str(data['health-history']), 200
+    return jsonify(data['health-history']), 200
 
 
 @app.route('/unresolved-tickets', methods=['GET'])

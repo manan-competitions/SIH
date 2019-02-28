@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart India Hackathon</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/readings.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <script src="js/plotly.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <nav>
+            <div class="nav-wrapper grey lighten-3">
+                <a href="#" class="brand-logo"><img src="media/logo.png" height="40px" alt=""></a>
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <a class="dropdown-trigger right" href="#" data-target="user-dropdown"><i class="material-icons">
+                        account_circle </i></a>
+                <a href="#" class="brand-logo center hide-on-med-and-down">Edge-Triggered</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="#">Readings</a></li>
+                    <li><a href="inventory.html">Inventory</a></li>
+                    <li><a href="/tickets.html">Tickets</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <ul id="user-dropdown" class="dropdown-content">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+
+        <ul class="sidenav" id="mobile-nav">
+            <h4 class="center">Edge-Triggered</h4>
+            <br>
+            <hr><br>
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="#">Readings</a></li>
+            <li><a href="/inventory.html">Inventory</a></li>
+            <li><a href="/tickets.html">Tickets</a></li>
+        </ul>
+
+        <div id="particles-js"></div>
+
+        <div class="container">
+            <table id="readings-table">
+                <tr>
+                    <th> Transformer ID </th>
+                    <th> Transformer Location </th>
+                    <th> Temperature </th>
+                    <th> Status </th>
+                </tr>
+                <tr>
+                    <td> 1 </td>
+                    <td> Dehradun </td>
+                    <td> 45 </td>
+                    <td> Good </td>
+                </tr>
+                <tr>
+                    <td> 1 </td>
+                    <td> Gurgaon </td>
+                    <td> 90 </td>
+                    <td> Poor </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="container">
+            <div id="chart-container"></div>
+        </div>
+    </div>
+
+</body>
+<script>
+
+    // var trace3 = {
+    //     x: [1, 2, 3, 4],
+    //     y: [10, 15, 13, 17],
+    //     mode: 'markers'
+    // };
+
+    var trace1 = {
+        x: [2, 3, 4, 5],
+        y: [16, 5, 11, 9],
+        mode: 'lines'
+    };
+
+    var trace2 = {
+        x: [1, 2, 3, 4],
+        y: [12, 9, 15, 12],
+        mode: 'lines+markers'
+    };
+
+    var data = [trace1, trace2];
+
+    var layout = {
+        title: 'Transformer Health Statistics',
+        xaxis: {
+            title: 'Time'
+        },
+        yaxis: {
+            title: 'Temperature'
+        }
+    };
+
+    Plotly.newPlot('chart-container', data, layout, {responsive: true});
+</script>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src="js/particle.js"></script>
+<script src="js/main.js"></script>
+
+</html>

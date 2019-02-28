@@ -1,0 +1,8 @@
+#tickets-table {
+    margin-top: 3vh;
+    background: #fff;
+}
+
+#tickets-table tr th, #tickets-table tr td {
+    text-align: center;
+}

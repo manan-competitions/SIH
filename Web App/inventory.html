@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart India Hackathon</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/inventory.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+
+<body>
+    <div>
+        <nav>
+            <div class="nav-wrapper grey lighten-3">
+                <a href="#" class="brand-logo"><img src="media/logo.png" height="40px" alt=""></a>
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <a class="dropdown-trigger right" href="#" data-target="user-dropdown"><i class="material-icons">
+                        account_circle </i></a>
+                <a href="#" class="brand-logo center hide-on-med-and-down">Edge-Triggered</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="/readings.html">Readings</a></li>
+                    <li><a href="#">Inventory</a></li>
+                    <li><a href="/tickets.html">Tickets</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <ul id="user-dropdown" class="dropdown-content">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+
+        <ul class="sidenav" id="mobile-nav">
+            <h4 class="center">Edge-Triggered</h4>
+            <br>
+            <hr><br>
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/readings.html">Readings</a></li>
+            <li><a href="#">Inventory</a></li>
+            <li><a href="/tickets.html">Tickets</a></li>
+        </ul>
+
+        <div id="particles-js"></div>
+
+        <div class="container">
+            <!-- <span class="left"> <h3> Inventory</h3></span> -->
+            <table id="inventory-table">
+                <tr>
+                    <th> Product ID </th>
+                    <th> Product Name </th>
+                    <th> Quantity  </th>
+                </tr>
+                <tr>
+                    <td> 1 </td>
+                    <td> Wire </td>
+                    <td> 120 </td>
+                </tr>
+                <tr>
+                    <td> 2 </td>
+                    <td> Battery </td>
+                    <td> 200 </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script>    
+    let url = 'http://127.0.0.1:5000/inventory';
+
+    fetch(url, {mode: 'cors'})
+        .then( response => {
+            return response.json();
+        })
+        .then( jsonResponse => {
+            console.log(JSON.stringify(jsonResponse));
+        });
+</script>    
+
+<script src="js/particle.js"></script>
+<script src="js/main.js"></script>
+
+</html>

@@ -1,0 +1,8 @@
+#inventory-table {
+    margin: 3vh 0;
+    background: white;
+}
+
+#inventory-table tr th, table tr td {
+    text-align: center;
+}

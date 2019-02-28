@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart India Hackathon</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+
+<body>
+    <div>
+        <nav>
+            <div class="nav-wrapper grey lighten-3">
+                <a href="#" class="brand-logo"><img src="media/logo.png" height="40px" alt=""></a>
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <a class="dropdown-trigger right" href="#" data-target="user-dropdown"><i class="material-icons">
+                account_circle </i></a>
+                <a href="#" class="brand-logo center hide-on-med-and-down">Edge-Triggered</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="/readings.html">Readings</a></li>
+                    <li><a href="/inventory.html">Inventory</a></li>
+                    <li><a href="/tickets.html">Tickets</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <ul id="user-dropdown" class="dropdown-content">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+
+        <ul class="sidenav" id="mobile-nav">
+            <h4 class="center">Edge-Triggered</h4>
+            <br><hr><br>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="/readings.html">Readings</a></li>
+            <li><a href="/inventory.html">Inventory</a></li>
+            <li><a href="/tickets.html">Tickets</a></li>
+        </ul>
+
+        <div id="particles-js"></div>
+
+        <div class="container">
+            <div id="map"></div>
+        </div>
+    </div>
+
+</body>
+<!-- <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATVWv61py3jaOGFzqy2dL_SxdMiMB1taM
+  &callback=initMap">
+</script> -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=NULL&callback=initMap"></script>
+<script>
+    function initMap() {
+        var uluru = {lat: 30.316496, lng: 78.032188};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: uluru
+        });
+
+        var marker = new google.maps.Marker( {
+            position: uluru,
+            map: map
+        });
+    }
+</script>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src="js/particle.js"></script>
+<script src="js/main.js"></script>
+
+</html>

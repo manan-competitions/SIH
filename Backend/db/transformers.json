@@ -1,0 +1,9 @@
+{
+    "1":{
+        "location": "FD 2",
+        "health": {
+            "oil": 32.7,
+            "current": 4
+        }
+    }
+}

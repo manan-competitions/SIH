@@ -1,0 +1,6 @@
+{
+    "T-sensors":{
+        "amount": 4,
+        "threshold": 2
+    }
+}

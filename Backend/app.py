@@ -3,14 +3,13 @@ import json
 import requests
 import time
 from flask import Flask, request
-from query_sort import clean_text, sort_query
 
 app = Flask(__name__)
 count = 0
 data = {
     'transformers': json.load(open('db/transformers.json')),
     'inventory': json.load(open('db/transformers.json')),
-    'ticket': json.load(open('db/tickets.json')),
+    'tickets': json.load(open('db/tickets.json')),
     'health-history': json.load(open('db/health-history.json'))
 }
 
@@ -23,54 +22,54 @@ def base_index():
 
 @app.route('/transformers', methods=['GET'])
 def get_transformer_list():
-    return data['transformers'], 200
+    return str(data['transformers']), 200
 
 
 @app.route('/inventory', methods=['GET'])
 def get_inventory_list():
-    return data['inventory'], 200
+    return str(data['inventory']), 200
 
 
 @app.route('/tickets', methods=['GET'])
 def get_tickets_list():
-    return data['tickets'], 200
+    return str(data['tickets']), 200
 
 
 @app.route('/tickets-per-transformer', methods=['GET'])
 def get_tickets_per_transformer_list(t_id):
     tickets = {}
-    
+
     for ticket_id, ticket_value in data['tickets'].items():
-        if ticket_id = t_id:
+        if ticket_id == t_id:
             tickets[ticket_id] = ticket_value
 
-    return tickets, 200
+    return str(tickets), 200
 
 @app.route('/health-history', methods=['GET'])
 def get_health_history_list():
-    return data['health-history'], 200
+    return str(data['health-history']), 200
 
 
 @app.route('/unresolved-tickets', methods=['GET'])
 def get_unresolved_tickets():
     unresolved_tickets = {}
-    
+
     for ticket_id, ticket_data in data['tickets'].items():
         if not ticket_data['is_resolved']:
             unresolved_tickets[ticket_id] = ticket_data
 
-    return unresolved_tickets, 200
+    return str(unresolved_tickets), 200
 
 
 @app.route('/low-inventory', methods=['GET'])
 def get_low_inventory():
     low_inventory = {}
-    
+
     for inv_name, inv_data in data['inventory'].items():
         if inv_data['amount'] < inv_data['threshold']:
             low_inventory[inv_name] = inv_data
 
-    return low_inventory, 200
+    return str(low_inventory), 200
 
 
 # updates

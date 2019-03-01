@@ -88,9 +88,9 @@ def get_low_inventory():
 @app.route('/update-transformers', methods=['POST'])
 def update_transformers_list():
     try:
-        data = request.get_json()
-        t_id = data['t_id']
-        new_data = data['new_data']
+        request_data = request.get_json()
+        t_id = request_data['t_id']
+        new_data = request_data['new_data']
     except:
         return "KeyError: t_id, new_data", 500
 
@@ -104,8 +104,8 @@ def update_transformers_list():
 @app.route('/update-inventory', methods=['POST'])
 def update_inventory_list():
     try:
-        data = request.get_json()
-        product_count_json = data['product_count_json']
+        request_data = request.get_json()
+        product_count_json = request_data['product_count_json']
     except:
         return "product_count_json", 500
 
@@ -118,9 +118,9 @@ def update_inventory_list():
 @app.route('/update-ticket', methods=['POST'])
 def update_ticket_list():
     try:
-        data = request.get_json()
-        t_id = data['t_id']
-        ticket_data = data['ticket_data']
+        request_data = request.get_json()
+        t_id = request_data['t_id']
+        ticket_data = request_data['ticket_data']
     except:
         return "KeyError: t_id, ticket_data", 500
 
@@ -134,8 +134,8 @@ def update_ticket_list():
 @app.route('/update-health', methods=['POST'])
 def update_health():
     try:
-        data = request.get_json()
-        t_id = data['t_id']
+        request_data = request.get_json()
+        t_id = request_data['t_id']
         health_data = data['health_data']
     except:
         return "KeyError: t_id, health_data", 500

@@ -1,13 +1,15 @@
 import tkinter
+import requests
 from PIL import ImageTk, Image
 
 path_to_img = 'transformer.jpg'
+id =  42
 size_img = (300,200)
 res = (1440,900)
 pad_x = 10
 pad_y = 5
 sld_len = 700
-server_ip = '127.0.0.1'
+server_ip = 'http://127.0.0.1:5000/update-transformers'
 
 def submit():
     """
@@ -18,13 +20,23 @@ def submit():
     print(s1.get())
     print(s2.get())
     print(s3.get())
+    sens_data = {
+                "t_id": id,
+                "new_data": {
+                            "current": s1.get(),
+                            "temp": s2.get(),
+                            "oil": s3.get(),
+                            }
+                }
+    r = requests.post(server_ip,json=sens_data)
+    print(r)
 
 window = tkinter.Tk()
 window.title("Virtual Sensors - Demo")
 window.geometry(f'{res[0]}x{res[1]}')
 window.configure(background='white')
 
-title = tkinter.Label(window, text='Transformer #42',background='white', font=('Helvetica',24,'underline'))
+title = tkinter.Label(window, text=f'Transformer #{id}',background='white', font=('Helvetica',24,'underline'))
 title.place(x=525,y=pad_y)
 
 im = Image.open(path_to_img)

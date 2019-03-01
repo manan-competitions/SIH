@@ -3,10 +3,10 @@ import json
 import requests
 import time
 from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
+#from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-cors = CORS(app)
+#cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 count = 0
 data = {
@@ -24,26 +24,32 @@ def base_index():
 
 
 @app.route('/transformers', methods=['GET'])
-@cross_origin()
+# @cross_origin()
 def get_transformer_list():
     return jsonify(data['transformers']), 200
 
 
 @app.route('/inventory', methods=['GET'])
-@cross_origin()
+# @cross_origin()
 def get_inventory_list():
     return jsonify(inventory=data['inventory'], status_code=200)
 
 @app.route('/tickets', methods=['GET'])
-@cross_origin()
+# @cross_origin()
 def get_tickets_list():
     return jsonify(data['tickets']), 200
 
 
-@app.route('/tickets-per-transformer', methods=['GET'])
-def get_tickets_per_transformer_list(t_id):
-    tickets = {}
+@app.route('/tickets-per-transformer', methods=['POST'])
+def get_tickets_per_transformer_list():
+    try:
+        data = request.get_json()
+        print(data)
+        t_id = data['t_id']
+    except:
+        return "KeyError: t_id", 500
 
+    tickets = {}
     for ticket_id, ticket_value in data['tickets'].items():
         if ticket_id == t_id:
             tickets[ticket_id] = ticket_value
@@ -51,7 +57,7 @@ def get_tickets_per_transformer_list(t_id):
     return str(tickets), 200
 
 @app.route('/health-history', methods=['GET'])
-@cross_origin()
+# @cross_origin()
 def get_health_history_list():
     return jsonify(data['health-history']), 200
 
@@ -79,8 +85,15 @@ def get_low_inventory():
 
 
 # updates
-@app.route('/update-transformers', methods=['GET'])
-def update_transformers_list(t_id, new_data):
+@app.route('/update-transformers', methods=['POST'])
+def update_transformers_list():
+    try:
+        data = request.get_json()
+        t_id = data['t_id']
+        new_data = data['new_data']
+    except:
+        return "KeyError: t_id, new_data", 500
+
     for new_key, new_value in new_data.items():
         data['transformers'][t_id][new_key] = new_value
 
@@ -88,16 +101,29 @@ def update_transformers_list(t_id, new_data):
     return "ok", 200
 
 
-@app.route('/update-inventory', methods=['GET'])
-def update_inventory_list(product_count_json):
+@app.route('/update-inventory', methods=['POST'])
+def update_inventory_list():
+    try:
+        data = request.get_json()
+        product_count_json = data['product_count_json']
+    except:
+        return "product_count_json", 500
+
     for product, count in product_count_json.items():
         data['inventory'][product][new_key] = new_value
 
     return "ok", 200
 
 
-@app.route('/update-ticket', methods=['GET'])
-def update_ticket_list(t_id, ticket_data):
+@app.route('/update-ticket', methods=['POST'])
+def update_ticket_list():
+    try:
+        data = request.get_json()
+        t_id = data['t_id']
+        ticket_data = data['ticket_data']
+    except:
+        return "KeyError: t_id, ticket_data", 500
+
     for ticket_data_key, ticket_data_value in ticket_data.items():
         data['tickets'][t_id][ticket_data_key] = ticket_data_value
 
@@ -105,8 +131,15 @@ def update_ticket_list(t_id, ticket_data):
     return "ok", 200
 
 
-@app.route('/update-health', methods=['GET'])
-def update_health(t_id, health_data):
+@app.route('/update-health', methods=['POST'])
+def update_health():
+    try:
+        data = request.get_json()
+        t_id = data['t_id']
+        health_data = data['health_data']
+    except:
+        return "KeyError: t_id, health_data", 500
+
     for health_data_key, health_data_value in health_data.items():
         data['health-history'][t_id][health_data_key][time.ctime()] = ticket_data_value
     return "ok", 200

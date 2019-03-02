@@ -26,6 +26,10 @@ class HomeScreen extends React.Component {
     setTimeout(this.pollDetails.bind(this), t);
   }
 
+  formatDate(date){
+    return (new Date(date*1000)).toLocaleDateString();
+  }
+
   async getDetails(){
     try{
       let resp = await fetch(BASE_URL + "/unresolved-tickets");
@@ -80,7 +84,7 @@ class HomeScreen extends React.Component {
           <View style={s}>
             
             <Text style={styles.card} >{ele.details}</Text>
-            <Text style={{...styles.card, ...styles.date}}>{ele.date}</Text>
+            <Text style={{...styles.card, ...styles.date}}>{this.formatDate(ele.date)}</Text>
           </View>
         </TouchableHighlight>)
     }) : (<Text style={{padding: 20, justifyContent: 'center'}}> All fixed for now </Text>)
@@ -102,7 +106,7 @@ const RootStack = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#005cb2',
+        backgroundColor: '#8071ed',
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
   cardOuter:{
     borderWidth: 1,
     borderColor: '#eee',
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
   },
   card: {
     borderRadius: 6,

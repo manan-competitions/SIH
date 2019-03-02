@@ -8,6 +8,10 @@ export default class DetailsScreen extends React.Component {
     }
   };
 
+  formatDate(date){
+    return (new Date(date*1000)).toLocaleDateString();
+  }
+
   render() {
     const { navigation } = this.props;
     const details = navigation.getParam('details', null);
@@ -19,10 +23,12 @@ export default class DetailsScreen extends React.Component {
       <View style={{...styles.details, ...styles.detailsOuter}}>
         <View>
           <Text style={{...styles.details, ...styles.tag}}>#{details.tokenId}</Text>
-          <Text style={{...styles.details, ...styles.text}}>Problem detail: {details.details}</Text>
-          <Text style={{...styles.details, ...styles.text}}>Previous Feedback: {details.feedback}</Text>
-          <Text style={{...styles.details, ...styles.text}}>Transformer Id: {details.transformer_id}</Text>
-          <Text style={{...styles.details, ...styles.text}}>Date: {details.date}</Text>
+          <View style={styles.text}>
+            <Text style={styles.details}>Problem detail: {details.details}</Text>
+            <Text style={styles.details}>Previous Feedback: {details.feedback}</Text>
+            <Text style={styles.details}>Transformer Id: {details.transformer_id}</Text>
+            <Text style={styles.details}>Date: {this.formatDate(details.date)}</Text>
+          </View>
         </View>
         <TouchableHighlight onPress={() => this.props.navigation.navigate('Form', {id: details.tokenId})} 
            underlayColor="white" >
@@ -43,7 +49,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   details: {
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     color: "#222",
     justifyContent: 'space-between',
 
@@ -74,8 +80,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   text: {
-    borderWidth: 2,
-    borderColor: '#eee',
+    // borderWidth: 2,
+    // borderColor: '#eee',
     padding: 10,
     marginTop: 10,
     backgroundColor: "#eee",

@@ -223,7 +223,7 @@ def add_ticket(t_id, t_data):
                 "feedback": None
             }
             data['transformers'][t_id]['state'] = 'Triggered'
-            break
+            
 
     json.dump(data['tickets'], open('db/tickets.json', 'w'), indent=4)
 

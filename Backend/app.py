@@ -108,7 +108,7 @@ def update_transformers_list():
 
 @app.route('/update-inventory', methods=['POST'])
 @cross_origin()
-def update_inventory_list(products_count_json = None):
+def update_inventory_list(product_count_json = None):
     try:
         request_data = request.get_json()
         product_count_json = request_data['product_count_json']
@@ -116,7 +116,7 @@ def update_inventory_list(products_count_json = None):
         pass
 
     for product, count in product_count_json.items():
-        data['inventory'][product]["amount"] = str(int(data['inventory'][product]["amount"])-int(product_count_json[product][amount]))
+        data['inventory'][product]["amount"] = str(int(data['inventory'][product]["amount"])-int(product_count_json[product]["amount"]))
 
     return "ok", 200
 

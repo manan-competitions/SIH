@@ -122,8 +122,64 @@
                     <h6 id="transformer-status"></h6>
                 </span>
                 <span class="transformerDetails">
-                    <h6> Oil: </h6>
+                    <h6> Power Output 1: </h6>
+                    <h6 id="transformer-po1"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Power Output 2: </h6>
+                    <h6 id="transformer-po2"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Power Output 3: </h6>
+                    <h6 id="transformer-po3"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Voltage Input 1: </h6>
+                    <h6 id="transformer-vi1"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Voltage Input 2: </h6>
+                    <h6 id="transformer-vi2"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Voltage Input 3: </h6>
+                    <h6 id="transformer-vi3"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Voltage Output 1: </h6>
+                    <h6 id="transformer-vo1"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Voltage Output 2: </h6>
+                    <h6 id="transformer-vo2"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Voltage Output 3: </h6>
+                    <h6 id="transformer-vo3"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Oil Level: </h6>
                     <h6 id="transformer-oil"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Temperature 1: </h6>
+                    <h6 id="transformer-t1"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Temperature 2: </h6>
+                    <h6 id="transformer-t2"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Temperature 3: </h6>
+                    <h6 id="transformer-t3"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Buchholz Relay: </h6>
+                    <h6 id="transformer-br"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Oil Pump: </h6>
+                    <h6 id="transformer-op"></h6>
                 </span>
 
 
@@ -170,11 +226,12 @@
                 tableRow.append(tableData);
 
                 tableData = document.createElement('td');
-                tableData.innerHTML = transformerData[key]["status"];
+                tableData.innerHTML = transformerData[key]["health"]["state"];
                 tableRow.append(tableData);
 
                 tableData = document.createElement('td');
-                tableData.innerHTML = '<a href="#" class="waves-effect waves-light details-open" id="details' + key + '">Details</a>';
+                tableData.innerHTML = '<a href="#" class="waves-effect waves-light details-open" id="details' + key +
+                    '">Details</a>';
                 tableRow.append(tableData);
 
                 $('#readings-table').append(tableRow);
@@ -217,27 +274,41 @@
     $(document).ready(function () {
         $('.modal').modal();
 
-        $('.details-open').click( e => {
+        $('.details-open').click(e => {
             $('#transformersDetailsTable').css('opacity', '0');
             $('#transformersDetailsTable').css('opacity', '1');
-            
+
             let idString = e.target.id;
-            let id = idString.substring(idString.length-1, idString.length);
-            $('#transformer-id').html( transformer[id]["key"]);
-            $('#transformer-location').html( transformer[id][id]["location"]);
-            $('#transformer-status').html( transformer[id][id]["status"]);
-            $('#transformer-oil').html(transformer[id][id]["health"]["oil"]);
+            let id = idString.substring(idString.length - 1, idString.length);
+            $('#transformer-id').html(transformer[id]["key"]);
+            $('#transformer-location').html(transformer[id][id]["location"]);
+            $('#transformer-status').html(transformer[id][id]["health"]["state"]);
+            $('#transformer-po1').html(transformer[id][id]["health"]["power_out_p1"]);
+            $('#transformer-po2').html(transformer[id][id]["health"]["power_out_p2"]);
+            $('#transformer-po3').html(transformer[id][id]["health"]["power_out_p3"]);
+            $('#transformer-vi1').html(transformer[id][id]["health"]["voltage_in_p1"]);
+            $('#transformer-vi2').html(transformer[id][id]["health"]["voltage_in_p2"]);
+            $('#transformer-vi3').html(transformer[id][id]["health"]["voltage_in_p3"]);
+            $('#transformer-vo1').html(transformer[id][id]["health"]["voltage_out_p1"]);
+            $('#transformer-vo2').html(transformer[id][id]["health"]["voltage_out_p2"]);
+            $('#transformer-vo3').html(transformer[id][id]["health"]["voltage_out_p3"]);
+            $('#transformer-t1').html(transformer[id][id]["health"]["temp_1"]);
+            $('#transformer-t2').html(transformer[id][id]["health"]["temp_2"]);
+            $('#transformer-t3').html(transformer[id][id]["health"]["temp_3"]);
+            $('#transformer-op').html(transformer[id][id]["health"]["oil_pump"]);
+            $('#transformer-oil').html(transformer[id][id]["health"]["oil_level"]);
+            $('#transformer-br').html(transformer[id][id]["health"]["Buchholz_relay"]);
             
+
             Plotly.newPlot('chart-container', data, layout, {
                 responsive: true
             });
         });
 
-        $('#close-transformer-details').click( e => {
+        $('#close-transformer-details').click(e => {
             $('#transformersDetailsTable').css('opacity', '0');
         });
     });
-
 </script>
 <script src="js/particle.js"></script>
 <script src="js/main.js"></script>

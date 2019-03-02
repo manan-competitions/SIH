@@ -43,6 +43,14 @@
     margin: 2vh auto;
 }
 
+.normal {
+    color:green;
+}
+
+.triggered,.poor {
+    color:red;
+}
+
 @media all and (max-width: 767px) {
     #transformersDetailsTable {
         text-align: center;

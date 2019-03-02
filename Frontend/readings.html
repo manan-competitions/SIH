@@ -199,7 +199,6 @@
 <script>
     // let url = 'http://127.0.0.1:5000/';
     url = 'http://172.16.15.225:5000/';
-
     let transformer = [];
 
     var addTransformerDataToTable = function () {
@@ -231,8 +230,11 @@
                     // console.log(state);
                     if (state == null)
                         tableData.innerHTML = '-';
-                    else
+                    else{
                         tableData.innerHTML = state;
+                        tableData.classList.add(state);
+                    }
+                        
                     tableRow.append(tableData);
 
                     tableData = document.createElement('td');

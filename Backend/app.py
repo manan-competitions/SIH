@@ -149,7 +149,7 @@ def update_health_history(t_id = None, health_data = None):
         pass
 
     for health_data_key, health_data_value in health_data.items():
-        data['health-history'][t_id][health_data_key][time.ctime()] = ticket_data_value
+        data['health-history'][t_id][health_data_key][time.ctime()] = health_data_value
     return "ok", 200
 
 

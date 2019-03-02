@@ -58,15 +58,15 @@ def submit():
         data['oil_pump'] = 'normal'
 
     #print(t_id)
-    pprint(data)
+    #pprint(data)
 
-    #r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
+    r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
 
     h_data = dict()
     for key,value in data.items():
         h_data[key] = {"Thu Feb 28 11:04:26 2019": value}
 
-    pprint(h_data)
+    #pprint(h_data)
 
 window = tk.Tk()
 window.title("Virtual Sensors - Demo")

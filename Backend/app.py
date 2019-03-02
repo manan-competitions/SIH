@@ -75,7 +75,7 @@ def get_unresolved_tickets():
         if not ticket_data['is_resolved']:
             unresolved_tickets[ticket_id] = ticket_data
             data['tickets'][ticket_id]['is_new'] = False
-    json.dump(data['tickets'], open('db/tickets.json'))
+    json.dump(data['tickets'], open('db/tickets.json', 'w'), indent=4)
     return jsonify(unresolved_tickets), 200
 
 
@@ -105,7 +105,7 @@ def update_transformers_list():
     for new_key, new_value in new_data.items():
         data['transformers'][t_id][new_key] = new_value
 
-    json.dump(data['transformers'], open('db/transformers.json'))
+    json.dump(data['transformers'], open('db/transformers.json', 'w'), indent=4)
     update_health_history(t_id, new_data['health'])
     return "ok", 200
 
@@ -121,7 +121,7 @@ def update_inventory_list(product_count_json = None):
 
     for product, count in product_count_json.items():
         data['inventory'][product]["amount"] = str(int(data['inventory'][product]["amount"])-int(product_count_json[product]["amount"]))
-    json.dump(data['inventory'], open('db/inventory.json'))
+    json.dump(data['inventory'], open('db/inventory.json', 'w'), indent=4)
     return "ok", 200
 
 
@@ -137,7 +137,7 @@ def update_ticket_list():
 
     for ticket_data_key, ticket_data_value in ticket_data.items():
         data['tickets'][t_id][ticket_data_key] = ticket_data_value
-    json.dump(data['tickets'], open('db/tickets.json'))
+    json.dump(data['tickets'], open('db/tickets.json', 'w'), indent=4)
     update_inventory_list(ticket_data['products_used'])
 
     return "ok", 200
@@ -155,7 +155,7 @@ def update_health_history(t_id = None, health_data = None):
 
     for health_data_key, health_data_value in health_data.items():
         data['health-history'][t_id][health_data_key][time.ctime()] = health_data_value
-    json.dump(data['health-history'], open('db/health-history.json'))
+    json.dump(data['health-history'], open('db/health-history.json', 'w'), indent=4)
     return "ok", 200
 
 
@@ -173,7 +173,7 @@ def add_transformer():
             "current": "-"
         }
     }
-    json.dump(data['transformers'], open('db/transformers.json'))
+    json.dump(data['transformers'], open('db/transformers.json', 'w'), indent=4)
     return "ok", 200
 
 
@@ -186,7 +186,7 @@ def add_inventory():
         "amount": new_data["amount"],
         "threshold": new_data["threshold"]
     }
-    json.dump(data['inventory'], open('db/inventory.json'))
+    json.dump(data['inventory'], open('db/inventory.json', 'w'), indent=4)
     return "ok", 200
 
 

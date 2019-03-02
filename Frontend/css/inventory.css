@@ -1,3 +1,7 @@
+.inventory-wrapper {
+    margin: 3vh auto;
+}
+
 #inventory-table {
     margin: 3vh 0;
     background: white;
@@ -5,4 +9,24 @@
 
 #inventory-table tr th, table tr td {
     text-align: center;
+}
+
+#inventory-table a:hover {
+    text-decoration: underline;
+}
+
+#addInventoryModal form, #updateInventoryModal form {
+    margin-top: 2vh;
+}
+
+#updateInventoryModal #update_product_name, #update_product_id {
+    font-weight: 600;
+}
+
+#updateInventoryModal .update-details h6 {
+    display: inline-block
+}
+
+#updateInventoryBlock .update-details {
+    display: block;
 }

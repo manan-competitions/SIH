@@ -71,7 +71,7 @@ def get_unresolved_tickets():
         if not ticket_data['is_resolved']:
             unresolved_tickets[ticket_id] = ticket_data
 
-    return str(unresolved_tickets), 200
+    return json.dumps(unresolved_tickets), 200
 
 
 @app.route('/low-inventory', methods=['GET'])
@@ -89,9 +89,9 @@ def get_low_inventory():
 @app.route('/update-transformers', methods=['POST'])
 def update_transformers_list():
     try:
-        data = request.get_json()
-        t_id = data['t_id']
-        new_data = data['new_data']
+        request_data = request.get_json()
+        t_id = request_data['t_id']
+        new_data = request_data['new_data']
     except:
         return "KeyError: t_id, new_data", 500
 
@@ -105,8 +105,8 @@ def update_transformers_list():
 @app.route('/update-inventory', methods=['POST'])
 def update_inventory_list():
     try:
-        data = request.get_json()
-        product_count_json = data['product_count_json']
+        request_data = request.get_json()
+        product_count_json = request_data['product_count_json']
     except:
         return "product_count_json", 500
 
@@ -119,24 +119,27 @@ def update_inventory_list():
 @app.route('/update-ticket', methods=['POST'])
 def update_ticket_list():
     try:
-        data = request.get_json()
-        t_id = data['t_id']
-        ticket_data = data['ticket_data']
+        request_data = request.get_json()
+        t_id = request_data['t_id']
+        ticket_data = request_data['ticket_data']
     except:
         return "KeyError: t_id, ticket_data", 500
 
     for ticket_data_key, ticket_data_value in ticket_data.items():
         data['tickets'][t_id][ticket_data_key] = ticket_data_value
 
-    update_inventory_list(ticket_data['products-used'])
+    update_inventory_list(ticket_data['products_used'])
     return "ok", 200
 
 
 @app.route('/update-health', methods=['POST'])
-def update_health_history():
-    data = request.get_json()
-    t_id = data['t_id']
-    health_data = data['health_data']
+def update_health():
+    try:
+        request_data = request.get_json()
+        t_id = request_data['t_id']
+        health_data = data['health_data']
+    except:
+        return "KeyError: t_id, health_data", 500
 
     for health_data_key, health_data_value in health_data.items():
         data['health-history'][t_id][health_data_key][time.ctime()] = ticket_data_value

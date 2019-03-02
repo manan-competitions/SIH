@@ -19,15 +19,36 @@
     margin-top: 3vh;
 }
 
-#transformersDetailsTable .container{
+#transformersDetailsTable .container {
     background: #f3f3f3;
     padding: 1vh 2vw;
 }
 
 #transformersDetailsTable {
     margin: 3vh auto;
+    /* display: none; */
+    opacity: 0;
+    transition: opacity ease-in 0.2s;
+}
+
+.transformerDetails h6 {
+    display: inline-block;
+}
+
+.transformerDetails h6:nth-child(2) {
+    font-weight: 800;
+}
+
+.transformerDetails {
+    display: block;
 }
 
 #close-transformer-details {
     margin: 2vh auto;
+}
+
+@media all and (max-width: 767px) {
+    #transformersDetailsTable {
+        text-align: center;
+    }
 }

@@ -1,10 +1,10 @@
 {
     "Wires": {
-        "amount": "6",
+        "amount": "5",
         "threshold": "4"
     },
     "T-sensors": {
-        "amount": "11",
+        "amount": "10",
         "threshold": "6"
     }
 }

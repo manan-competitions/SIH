@@ -35,27 +35,27 @@ def submit():
     data['temp_2'] = str(temp_scale_2.get())
     data['temp_3'] = str(temp_scale_3.get())
     if button_relay1['relief'] == tk.SUNKEN:
-        data['Buchholz_relay'] = 'normal'
+        data['Buchholz_relay'] = '0'
     elif button_relay2['relief'] == tk.SUNKEN:
-        data['Buchholz_relay'] = 'triggered'
+        data['Buchholz_relay'] = '1'
     else:
-        data['Buchholz_relay'] = 'normal'
+        data['Buchholz_relay'] = '0'
 
     if button_state1['relief'] == tk.SUNKEN:
-        data['state'] = 'normal'
+        data['state'] = '0'
     elif button_state2['relief'] == tk.SUNKEN:
-        data['state'] = 'triggered'
+        data['state'] = '1'
     else:
-        data['state'] = 'normal'
+        data['state'] = '0'
 
     if button_temp1['relief'] == tk.SUNKEN:
-        data['oil_pump'] = 'normal'
+        data['oil_pump'] = '0'
     elif button_temp2['relief'] == tk.SUNKEN:
-        data['oil_pump'] = 'abnormal'
+        data['oil_pump'] = '1'
     elif button_temp3['relief'] == tk.SUNKEN:
-        data['oil_pump'] = 'failed'
+        data['oil_pump'] = '2'
     else:
-        data['oil_pump'] = 'normal'
+        data['oil_pump'] = '0'
 
     #print(t_id)
     #pprint(data)
@@ -135,17 +135,17 @@ scale_volt_in_p3.set(15)
 scale_volt_out_p1 = tk.Scale(window, from_=100, to=240, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_out_p1.place(x=350,y=420+diff)
-scale_volt_out_p1.set(230)
+scale_volt_out_p1.set(125)
 
 scale_volt_out_p2 = tk.Scale(window, from_=100, to=240, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_out_p2.place(x=650,y=420+diff)
-scale_volt_out_p2.set(230)
+scale_volt_out_p2.set(125)
 
 scale_volt_out_p3 = tk.Scale(window, from_=100, to=240, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_out_p3.place(x=950,y=420+diff)
-scale_volt_out_p3.set(230)
+scale_volt_out_p3.set(125)
 
 # Oil pump
 oil_pump = tk.Label(window, text='Oil Pump',background='white', font=('Helvetica',16,'bold'))
@@ -213,10 +213,10 @@ def relay_2_func():
         button_relay1.configure({'relief': tk.RAISED})
         button_relay2.configure({'relief': tk.SUNKEN})
 
-button_relay1 = tk.Button(window, text = 'Healthy', relief=tk.RAISED, command = relay_1_func,
+button_relay1 = tk.Button(window, text = 'Normal', relief=tk.RAISED, command = relay_1_func,
                         bg='#99ff66', fg='black', font=('Helvetica',12), borderwidth=2)
 button_relay1.place(x=200,y=25)
-button_relay2 = tk.Button(window, text = 'Abnormal', relief=tk.RAISED, command=relay_2_func,
+button_relay2 = tk.Button(window, text = 'Triggered', relief=tk.RAISED, command=relay_2_func,
                         bg='#ff3333', fg='black', font=('Helvetica',12), borderwidth=2)
 button_relay2.place(x=285,y=25)
 

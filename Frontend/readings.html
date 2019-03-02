@@ -26,7 +26,7 @@
                     <li><a href="/">Dashboard</a></li>
                     <li><a href="#">Readings</a></li>
                     <li><a href="inventory.html">Inventory</a></li>
-                    <li><a href="/tickets.html">Tickets</a></li>
+                    <li><a href="tickets.html">Tickets</a></li>
                 </ul>
             </div>
         </nav>
@@ -42,8 +42,8 @@
             <hr><br>
             <li><a href="/">Dashboard</a></li>
             <li><a href="#">Readings</a></li>
-            <li><a href="/inventory.html">Inventory</a></li>
-            <li><a href="/tickets.html">Tickets</a></li>
+            <li><a href="inventory.html">Inventory</a></li>
+            <li><a href="tickets.html">Tickets</a></li>
         </ul>
 
         <div id="particles-js"></div>
@@ -61,18 +61,18 @@
                     <th> Status </th>
                     <th></th>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td> 1 </td>
                     <td> Dehradun </td>
                     <td> Good </td>
-                    <td><a class="waves-effect waves-light">Details</a></td>
+                    <td><a href="#" class="waves-effect waves-light">Details</a></td>
                 </tr>
                 <tr>
                     <td> 1 </td>
                     <td> Gurgaon </td>
                     <td> Poor </td>
-                    <td><a class="waves-effect waves-light">Details</a></td>
-                </tr>
+                    <td><a href="#" class="waves-effect waves-light">Details</a></td>
+                </tr> -->
             </table>
         </div>
 
@@ -145,9 +145,43 @@
 <script src="js/materialize.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('.modal').modal();
-    });
+    let url = 'http://127.0.0.1:5000/';
+
+    let transformer = [];
+
+    fetch(url + 'transformers', {
+            mode: 'cors'
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(jsonResponse => {
+            let transformerData = jsonResponse;
+
+            for (var key in transformerData) {
+                let tableRow = document.createElement('tr');
+
+                let tableData = document.createElement('td');
+                tableData.innerHTML = key;
+                tableRow.append(tableData);
+
+                tableData = document.createElement('td');
+                tableData.innerHTML = transformerData[key]["location"];
+                tableRow.append(tableData);
+
+                tableData = document.createElement('td');
+                tableData.innerHTML = transformerData[key]["status"];
+                tableRow.append(tableData);
+
+                tableData = document.createElement('td');
+                tableData.innerHTML = '<a href="#" class="waves-effect waves-light details-open" id="details' + key + '">Details</a>';
+                tableRow.append(tableData);
+
+                $('#readings-table').append(tableRow);
+                transformer[key] = transformerData;
+                transformer[key]["key"] = key;
+            }
+        });
 
     // var trace3 = {
     //     x: [1, 2, 3, 4],
@@ -179,9 +213,31 @@
         }
     };
 
-    Plotly.newPlot('chart-container', data, layout, {
-        responsive: true
+
+    $(document).ready(function () {
+        $('.modal').modal();
+
+        $('.details-open').click( e => {
+            $('#transformersDetailsTable').css('opacity', '0');
+            $('#transformersDetailsTable').css('opacity', '1');
+            
+            let idString = e.target.id;
+            let id = idString.substring(idString.length-1, idString.length);
+            $('#transformer-id').html( transformer[id]["key"]);
+            $('#transformer-location').html( transformer[id][id]["location"]);
+            $('#transformer-status').html( transformer[id][id]["status"]);
+            $('#transformer-oil').html(transformer[id][id]["health"]["oil"]);
+            
+            Plotly.newPlot('chart-container', data, layout, {
+                responsive: true
+            });
+        });
+
+        $('#close-transformer-details').click( e => {
+            $('#transformersDetailsTable').css('opacity', '0');
+        });
     });
+
 </script>
 <script src="js/particle.js"></script>
 <script src="js/main.js"></script>

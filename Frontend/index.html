@@ -19,13 +19,13 @@
                 <a href="#" class="brand-logo"><img src="media/logo.png" height="40px" alt=""></a>
                 <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <a class="dropdown-trigger right" href="#" data-target="user-dropdown"><i class="material-icons">
-                account_circle </i></a>
+                        account_circle </i></a>
                 <a href="#" class="brand-logo center hide-on-med-and-down">Edge-Triggered</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="#">Dashboard</a></li>
-                    <li><a href="/readings.html">Readings</a></li>
-                    <li><a href="/inventory.html">Inventory</a></li>
-                    <li><a href="/tickets.html">Tickets</a></li>
+                    <li><a href="readings.html">Readings</a></li>
+                    <li><a href="inventory.html">Inventory</a></li>
+                    <li><a href="tickets.html">Tickets</a></li>
                 </ul>
             </div>
         </nav>
@@ -37,11 +37,12 @@
 
         <ul class="sidenav" id="mobile-nav">
             <h4 class="center">Edge-Triggered</h4>
-            <br><hr><br>
+            <br>
+            <hr><br>
             <li><a href="#">Dashboard</a></li>
-            <li><a href="/readings.html">Readings</a></li>
-            <li><a href="/inventory.html">Inventory</a></li>
-            <li><a href="/tickets.html">Tickets</a></li>
+            <li><a href="readings.html">Readings</a></li>
+            <li><a href="inventory.html">Inventory</a></li>
+            <li><a href="tickets.html">Tickets</a></li>
         </ul>
 
         <div id="particles-js"></div>
@@ -49,27 +50,114 @@
         <div class="container">
             <div id="map"></div>
         </div>
+
+
+        <div id="card-wrapper">
+            <div class="row">
+                <div class="col s4">
+                    <div class="content-card">
+                        <span class="card-title"></span>
+                        <span class="card-transformer-details">
+                            <!-- <h6> Transformer ID: </h6> -->
+                            <h6 id="transformer-id"></h6>
+                        </span>
+                        <span class="card-transformer-details">
+                            <!-- <h6> Transformer Location: </h6> -->
+                            <h6 id="transformer-location"></h6>
+                        </span>
+                        <span class="card-transformer-details">
+                            <!-- <h6> Transformer Status: </h6> -->
+                            <h6 id="transformer-status"></h6>
+                        </span>
+                        <span class="card-transformer-details">
+                            <h6><a href="/readings.html">Details</a></h6>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </body>
-<!-- <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATVWv61py3jaOGFzqy2dL_SxdMiMB1taM
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATVWv61py3jaOGFzqy2dL_SxdMiMB1taM
   &callback=initMap">
 </script> -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=NULL&callback=initMap"></script>
 <script>
-    function initMap() {
-        var uluru = {lat: 30.316496, lng: 78.032188};
+    let loc = 'Pilani';
+    let url = 'http://127.0.0.1:5000/';
+
+    async function initMap() {
+
+        let coords = await geocodeAddress(loc)
+            .then(response => {
+                return response;
+            })
+
+        // let coords = {
+        //     "lat": 28.3802,
+        //     "lng": 75.6092
+        // }
+
+        var contentString = $('#card-wrapper').html();
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
 
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 8,
-            center: uluru
+            center: coords
         });
 
-        var marker = new google.maps.Marker( {
-            position: uluru,
-            map: map
+        var marker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            title: loc
         });
+
+
+        marker.addListener('click', async function() {
+            infowindow.open(map, marker);
+
+            let transformerData = await getTransformerData()
+                .then(response => {
+                    return response;
+                })
+            transformerData = JSON.parse(transformerData);
+            console.log(transformerData);
+
+            for (var key in transformerData) {
+                if (transformerData[key]["location"] == loc) {
+                    $('#transformer-id').html( "ID: <b>" + key + "</b>");
+                    $('#transformer-location').html( "Location: <b>" + transformerData[key]["location"] + "</b>");
+                    $('#transformer-status').html("Status: <b>" + transformerData[key]["status"] + "</b>");
+                }
+            }
+        })
+    }
+
+    function geocodeAddress(place) {
+        return fetch('http://open.mapquestapi.com/geocoding/v1/address?key=nBLgikKLcex7cwzbLQo0K63Gr3Gh0j1i&location=' +
+                place)
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                let coords = jsonResponse['results'][0]['locations'][0]['latLng'];
+                return coords;
+            })
+    }
+
+    function getTransformerData() {
+        return fetch(url + 'transformers')
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                return JSON.stringify(jsonResponse);
+            })
     }
 </script>
 <script src="js/jquery-3.3.1.min.js"></script>

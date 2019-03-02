@@ -1,23 +1,23 @@
 {
-    "1":{
+    "1": {
         "location": "FD 2",
         "health": {
-           "Buchholz_relay": "normal",
-           "oil_level": "50",
-           "oil_pump": "normal",
-           "power_out_p1": "100",
-           "power_out_p2": "100",
-           "power_out_p3": "100",
-           "state": "normal",
-           "temp_1": "35",
-           "temp_2": "35",
-           "temp_3": "35",
-           "voltage_in_p1": "15",
-           "voltage_in_p2": "15",
-           "voltage_in_p3": "15",
-           "voltage_out_p1": "230",
-           "voltage_out_p2": "230",
-           "voltage_out_p3": "230"
+            "power_out_p1": "2500",
+            "power_out_p2": "100",
+            "power_out_p3": "100",
+            "voltage_in_p1": "15",
+            "voltage_in_p2": "15",
+            "voltage_in_p3": "15",
+            "voltage_out_p1": "230",
+            "voltage_out_p2": "230",
+            "voltage_out_p3": "230",
+            "oil_level": "50",
+            "temp_1": "35",
+            "temp_2": "35",
+            "temp_3": "35",
+            "Buchholz_relay": "normal",
+            "state": "normal",
+            "oil_pump": "normal"
         },
         "status": "poor"
     }

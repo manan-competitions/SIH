@@ -4,3 +4,22 @@
     background-color: grey;
     margin-top: 5vh;
 }
+
+#card-wrapper {
+    display: none;
+}
+
+#card-wrapper .content-card span {
+    padding: 2vh auto;
+}
+
+.card-transformer-details h6 {
+    display: inline-block;
+}
+.card-transformer-details {
+    margin: 1em;
+    display: block;
+}
+/* .card-transformer-details h6:nth-child(2) {
+    font-weight: 800;
+} */

@@ -140,7 +140,8 @@ def update_ticket_list():
     for ticket_data_key, ticket_data_value in ticket_data.items():
         data['tickets'][t_id][ticket_data_key] = ticket_data_value
     json.dump(data['tickets'], open('db/tickets.json', 'w'), indent=4)
-    update_inventory_list(ticket_data['products_used'])
+    if 'products_used' in ticket_data:
+        update_inventory_list(ticket_data['products_used'])
 
     return "ok", 200
 
@@ -193,4 +194,4 @@ def add_inventory():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host='172.16.15.91',port=5000)

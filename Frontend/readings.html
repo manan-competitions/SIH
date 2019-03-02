@@ -48,7 +48,12 @@
 
         <div id="particles-js"></div>
 
-        <div class="container">
+        <div class="container readings-wrapper">
+
+            <a href="#addTransformerModal" class="btn waves-effect waves-light modal-trigger">Add Transfomer
+                <i class="material-icons right">add</i>
+            </a>
+
             <table id="readings-table">
                 <tr>
                     <th> Transformer ID </th>
@@ -74,10 +79,47 @@
         <div class="container">
             <div id="chart-container"></div>
         </div>
+
+        <div id="addTransformerModal" class="modal">
+            <div class="modal-content">
+                <span>
+                    <h4> Add Transfomer </h4>
+                </span>
+                <div class="row">
+                    <form class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input id="product_name" type="text" class="validate">
+                                <label for="product_name">Product Name</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="product_location" type="text" class="validate">
+                                <label for="product_location">Product Location</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <submit class="btn waves-effect waves-light">Add
+                                    <i class="material-icons right">send</i>
+                                </submit>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
     </div>
 
 </body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/materialize.min.js"></script>
+
 <script>
+
+    $(document).ready(function () {
+        $('.modal').modal();
+    });
 
     // var trace3 = {
     //     x: [1, 2, 3, 4],
@@ -109,10 +151,11 @@
         }
     };
 
-    Plotly.newPlot('chart-container', data, layout, {responsive: true});
+    Plotly.newPlot('chart-container', data, layout, {
+        responsive: true
+    });
+    
 </script>
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/materialize.min.js"></script>
 <script src="js/particle.js"></script>
 <script src="js/main.js"></script>
 

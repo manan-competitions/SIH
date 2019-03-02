@@ -47,42 +47,135 @@
 
         <div id="particles-js"></div>
 
-        <div class="container">
+        <div class="container inventory-wrapper">
+            <a href="#addInventoryModal" class="btn waves-effect waves-light modal-trigger">Add Inventory
+                <i class="material-icons right">add</i>
+            </a>
             <!-- <span class="left"> <h3> Inventory</h3></span> -->
+
             <table id="inventory-table">
                 <tr>
                     <th> Product ID </th>
                     <th> Product Name </th>
-                    <th> Quantity  </th>
+                    <th> Quantity </th>
+                    <th></th>
                 </tr>
-                <tr>
+                <tr class="inventory-table-row">
                     <td> 1 </td>
                     <td> Wire </td>
                     <td> 120 </td>
+                    <td> <a href="#updateInventoryModal" id="update0" class="modal-trigger update-link">Update</a> </td>
                 </tr>
-                <tr>
+                <tr class="inventory-table-row">
                     <td> 2 </td>
                     <td> Battery </td>
                     <td> 200 </td>
+                    <td> <a href="#updateInventoryModal" id="update1" href="#" class="modal-trigger update-link">Update</a>
+                    </td>
                 </tr>
             </table>
+        </div>
+
+        <div id="addInventoryModal" class="modal">
+            <div class="modal-content">
+                <span>
+                    <h4> Add Inventory </h4>
+                </span>
+                <div class="row">
+                    <form class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input id="product_name" type="text" class="validate">
+                                <label for="product_name">Product Name</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="product_quantity" type="number" class="validate">
+                                <label for="product_quantity">Product Quantity</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <submit class="btn waves-effect waves-light">Add
+                                    <i class="material-icons right">send</i>
+                                </submit>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+
+        <div id="updateInventoryModal" class="modal">
+            <div class="modal-content">
+                <span>
+                    <h5> Update Inventory </h5>
+                </span>
+                <div class="update-details">
+                    <h6> Product Id: </h6>
+                    <h6 id="update_product_id"></h6>
+                </div>
+                <div class="update-details">
+                    <h6> Product Name: </h6>
+                    <h6 id="update_product_name"></h6>
+                </div>
+
+                <div class="row">
+                    <form class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input id="product_quantity_update" type="number" class="validate">
+                                <label for="product_quantity_update">Product Quantity</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <submit class="btn waves-effect waves-light">Update
+                                    <i class="material-icons right">send</i>
+                                </submit>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
         </div>
     </div>
 
 </body>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/materialize.min.js"></script>
-<script>    
-    let url = 'http://127.0.0.1:5000/inventory';
+<script>
+    let url = 'http://40.114.107.92';
 
-    fetch(url, {mode: 'cors'})
-        .then( response => {
+    $('.update-link').click(e => {
+        let idString = e.target.id;
+        const size = idString.length;
+        let id = idString.substring(size - 1, size);
+        let row = $('.inventory-table-row').children();
+        let rowData = {
+            'id' : row[id*4 + 0].innerHTML,
+            'name' : row[id*4 + 1].innerHTML
+        }
+        document.getElementById('update_product_id').innerHTML = (rowData['id']);
+        document.getElementById('update_product_name').innerHTML = (rowData['name']);
+    });
+
+    $(document).ready(function () {
+        $('.modal').modal();
+    });
+
+    fetch(url, {
+            mode: 'cors'
+        })
+        .then(response => {
             return response.json();
         })
-        .then( jsonResponse => {
+        .then(jsonResponse => {
             console.log(JSON.stringify(jsonResponse));
         });
-</script>    
+</script>
 
 <script src="js/particle.js"></script>
 <script src="js/main.js"></script>

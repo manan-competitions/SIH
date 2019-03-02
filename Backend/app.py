@@ -16,6 +16,7 @@ data = {
     'health-history': json.load(open('db/health-history.json'))
 }
 
+no_of_t=0
 
 # Views
 @app.route('/', methods=['GET'])
@@ -70,7 +71,7 @@ def get_unresolved_tickets():
         if not ticket_data['is_resolved']:
             unresolved_tickets[ticket_id] = ticket_data
 
-    return str(unresolved_tickets), 200
+    return json.dumps(unresolved_tickets), 200
 
 
 @app.route('/low-inventory', methods=['GET'])
@@ -127,7 +128,7 @@ def update_ticket_list():
     for ticket_data_key, ticket_data_value in ticket_data.items():
         data['tickets'][t_id][ticket_data_key] = ticket_data_value
 
-    update_inventory_list(ticket_data['products-used'])
+    update_inventory_list(ticket_data['products_used'])
     return "ok", 200
 
 
@@ -143,6 +144,35 @@ def update_health():
     for health_data_key, health_data_value in health_data.items():
         data['health-history'][t_id][health_data_key][time.ctime()] = ticket_data_value
     return "ok", 200
+
+
+@app.route('/add-transformer', methods=['POST'])
+def add_transformer():
+    new_data = request.get_json()
+    t_location = new_data['location']
+    no_of_t += 1
+    t_id = no_of_t
+    data['transformers'][t_id] = {
+        "location": t_location,
+        "health"": {
+            "oil": "-",
+            "current": "-"
+        }
+    }
+
+    return "ok", 200
+
+@app.route('/add-inventory', methods=['POST'])
+def add_inventory():
+    new_data = request.get_json()
+    new_inventory_name = new_data['name']
+    data['inventory'][new_inventory_name] = {
+        "amount": new_data["amount"],
+        "threshold": new_data["threshold"]
+    }
+
+    return "ok", 200
+
 
 
 if __name__ == '__main__':

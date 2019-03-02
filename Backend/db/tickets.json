@@ -5,5 +5,12 @@
         "is_resolved":0,
         "date": "Thu Feb 28 11:04:26 2019",
         "details": "Oil is boiling"
+    },
+    "2": {
+        "transformer_id":2,
+        "feedback": "Not resolved yet",
+        "is_resolved":0,
+        "date": "Thu Feb 28 11:04:26 2019",
+        "details": "Oil is boiling again"
     }
 }

@@ -14,3 +14,7 @@
 .modebar-container {
     display: none !important;
 }
+
+.readings-wrapper {
+    margin-top: 3vh;
+}

@@ -25,7 +25,7 @@ def base_index():
 
 
 @app.route('/transformers', methods=['GET'])
-# @cross_origin()
+@cross_origin()
 def get_transformer_list():
     return jsonify(data['transformers']), 200
 
@@ -42,6 +42,7 @@ def get_tickets_list():
 
 
 @app.route('/tickets-per-transformer', methods=['POST'])
+@cross_origin()
 def get_tickets_per_transformer_list():
     try:
         data = request.get_json()
@@ -58,12 +59,13 @@ def get_tickets_per_transformer_list():
     return str(tickets), 200
 
 @app.route('/health-history', methods=['GET'])
-# @cross_origin()
+@cross_origin()
 def get_health_history_list():
     return jsonify(data['health-history']), 200
 
 
 @app.route('/unresolved-tickets', methods=['GET'])
+@cross_origin()
 def get_unresolved_tickets():
     unresolved_tickets = {}
 
@@ -71,10 +73,11 @@ def get_unresolved_tickets():
         if not ticket_data['is_resolved']:
             unresolved_tickets[ticket_id] = ticket_data
 
-    return json.dumps(unresolved_tickets), 200
+    return jsonify(unresolved_tickets), 200
 
 
 @app.route('/low-inventory', methods=['GET'])
+@cross_origin()
 def get_low_inventory():
     low_inventory = {}
 
@@ -82,11 +85,12 @@ def get_low_inventory():
         if inv_data['amount'] < inv_data['threshold']:
             low_inventory[inv_name] = inv_data
 
-    return str(low_inventory), 200
+    return jsonify(low_inventory), 200
 
 
 # updates
 @app.route('/update-transformers', methods=['POST'])
+@cross_origin()
 def update_transformers_list():
     try:
         request_data = request.get_json()
@@ -103,20 +107,22 @@ def update_transformers_list():
 
 
 @app.route('/update-inventory', methods=['POST'])
-def update_inventory_list():
+@cross_origin()
+def update_inventory_list(products_count_json = None):
     try:
         request_data = request.get_json()
         product_count_json = request_data['product_count_json']
     except:
-        return "product_count_json", 500
+        pass
 
     for product, count in product_count_json.items():
-        data['inventory'][product][new_key] = new_value
+        data['inventory'][product]["amount"] = str(int(data['inventory'][product]["amount"])-int(product_count_json[product][amount]))
 
     return "ok", 200
 
 
 @app.route('/update-ticket', methods=['POST'])
+@cross_origin()
 def update_ticket_list():
     try:
         request_data = request.get_json()
@@ -133,6 +139,7 @@ def update_ticket_list():
 
 
 @app.route('/update-health', methods=['POST'])
+@cross_origin()
 def update_health():
     try:
         request_data = request.get_json()
@@ -147,6 +154,7 @@ def update_health():
 
 
 @app.route('/add-transformer', methods=['POST'])
+@cross_origin()
 def add_transformer():
     new_data = request.get_json()
     t_location = new_data['location']
@@ -163,6 +171,7 @@ def add_transformer():
     return "ok", 200
 
 @app.route('/add-inventory', methods=['POST'])
+@cross_origin()
 def add_inventory():
     new_data = request.get_json()
     new_inventory_name = new_data['name']

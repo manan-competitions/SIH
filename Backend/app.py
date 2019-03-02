@@ -140,7 +140,7 @@ def update_ticket_list():
 
 @app.route('/update-health', methods=['POST'])
 @cross_origin()
-def update_health():
+def update_health_history():
     try:
         request_data = request.get_json()
         t_id = request_data['t_id']

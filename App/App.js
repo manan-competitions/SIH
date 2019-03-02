@@ -141,17 +141,17 @@ const styles = StyleSheet.create({
   date: {
     textAlign: 'right', 
     fontSize: 11,
-    color: "#666",
+    color: "#fff",
     fontWeight: '600'
   },
   cardOuter:{
     borderWidth: 1,
     borderColor: '#eee',
-    backgroundColor: '#fafafa',
+    backgroundColor: '#5f899f',
   },
   card: {
     borderRadius: 6,
-    color: "#222",
+    color: "#fff",
     fontSize: 14,
   },
   newTicket: {

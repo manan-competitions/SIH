@@ -154,7 +154,7 @@ def add_transformer():
     t_id = no_of_t
     data['transformers'][t_id] = {
         "location": t_location,
-        "health"": {
+        "health": {
             "oil": "-",
             "current": "-"
         }

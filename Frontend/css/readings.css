@@ -43,11 +43,11 @@
     margin: 2vh auto;
 }
 
-.normal {
+.normal, .Normal {
     color:green;
 }
 
-.triggered,.poor {
+.triggered, .Triggered {
     color:red;
 }
 

@@ -87,6 +87,10 @@
                     <h6> Feedback: </h6>
                     <h6 id="ticket-feedback"></h6>
                 </span>
+                <span class="ticketDetails">
+                    <h6> Products Used: </h6>
+                    <h6 id="ticket-product-used"></h6>
+                </span>
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
@@ -121,8 +125,10 @@
                 tableRow.appendChild(tableData);
 
                 tableData = document.createElement('td');
-                let date = ticketsData[key]['date'].split(' ');
-                tableData.innerHTML = date[1] + ' ' + date[2] + ' ' + date[4];
+                const ms = ticketsData[key]['date'] * 1000;
+                let date = new Date(ms);
+                date = date.toString().split(' ');
+                tableData.innerHTML = date[1] + ' ' + date[2] + ' ' + date[3];
                 tableRow.appendChild(tableData);
 
                 tableData = document.createElement('td');
@@ -149,11 +155,22 @@
                     $('#ticket-id').html(tickets[id]["key"]);
                     $('#ticket-details').html(tickets[id]["details"]);
                     $('#ticket-feedback').html(tickets[id]["feedback"]);
-                    $('#ticket-date').html(tickets[id]["date"]);
+                    if( tickets[id]["feedback"] == null || tickets[id]["feedback"] == '' ) {
+                        $('#ticket-feedback').html('-');
+                    }
+                    const ms = tickets[id]['date'] * 1000;
+                    let date = (new Date(ms)).toString().split(' ');
+                    $('#ticket-date').html(date[1] + ' ' + date[2] + ' ' + date[3]);
                     if (tickets[id]["is_resolved"])
                         $('#ticket-status').html("Resolved");
                     else
                         $('#ticket-status').html("Not Resolved");
+
+                    let productsUsed = '';
+                    for (var prod in tickets[id]["products_used"]) {
+                        productsUsed += prod + " : " + tickets[id]["products_used"][prod]["amount"] + "<br>";
+                    }
+                    $('#ticket-product-used').html(productsUsed);
                 })
             }
         });

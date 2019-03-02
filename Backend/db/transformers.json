@@ -4,6 +4,7 @@
         "health": {
             "oil": 32.7,
             "current": 4
-        }
+        },
+        "status": "poor"
     }
 }

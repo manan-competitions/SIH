@@ -16,6 +16,7 @@ data = {
     'health-history': json.load(open('db/health-history.json'))
 }
 
+no_of_t=0
 
 # Views
 @app.route('/', methods=['GET'])
@@ -143,6 +144,35 @@ def update_health():
     for health_data_key, health_data_value in health_data.items():
         data['health-history'][t_id][health_data_key][time.ctime()] = ticket_data_value
     return "ok", 200
+
+
+@app.route('/add-transformer', methods=['POST'])
+def add_transformer():
+    new_data = request.get_json()
+    t_location = new_data['location']
+    no_of_t += 1
+    t_id = no_of_t
+    data['transformers'][t_id] = {
+        "location": t_location,
+        "health"": {
+            "oil": "-",
+            "current": "-"
+        }
+    }
+
+    return "ok", 200
+
+@app.route('/add-inventory', methods=['POST'])
+def add_inventory():
+    new_data = request.get_json()
+    new_inventory_name = new_data['name']
+    data['inventory'][new_inventory_name] = {
+        "amount": new_data["amount"],
+        "threshold": new_data["threshold"]
+    }
+
+    return "ok", 200
+
 
 
 if __name__ == '__main__':

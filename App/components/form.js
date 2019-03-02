@@ -20,18 +20,7 @@ export default class FormScreen extends React.Component {
 
   	const { navigation } = this.props;
   	this.state.formData.t_id = navigation.getParam('id', -1);
-  	this.state.formData.ticket_data = {};
-  	// this.submit({
-   //    "t_id": "1", 
-   //    "ticket_data" : {
-   //      "products_used": {
-   //        "T-sensors": {
-   //          "amount": 4,
-   //        }
-   //      },
-   //      "is_resolved": 0, 
-   //    }
-   //  })    
+  	this.state.formData.ticket_data = {};   
   }
   static navigationOptions = (nav) =>{
     return {

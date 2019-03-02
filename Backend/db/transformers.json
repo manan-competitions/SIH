@@ -1,6 +1,6 @@
 {
     "1": {
-        "location": "FD 2",
+        "location": "Thane",
         "health": {
             "power_out_p1": "100",
             "power_out_p2": "100",
@@ -13,12 +13,24 @@
             "voltage_out_p3": "125",
             "oil_level": "50",
             "temp_1": "35",
-            "temp_2": "35",
+            "temp_2": "16",
             "temp_3": "35",
-            "Buchholz_relay": "0",
+            "Buchholz_relay": "1",
             "state": "0",
             "oil_pump": "0"
         },
-        "status": "poor"
+        "state": "Triggered"
+    },
+    "2": {
+        "location": "Chennai",
+        "health": {}
+    },
+    "3": {
+        "location": "Jhunjhunu",
+        "health": {}
+    },
+    "4": {
+        "location": "Pilani",
+        "health": {}
     }
 }

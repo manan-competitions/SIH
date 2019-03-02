@@ -59,18 +59,18 @@
                         <span class="card-title"></span>
                         <span class="card-transformer-details">
                             <!-- <h6> Transformer ID: </h6> -->
-                            <h6 id="transformer-id"></h6>
+                            <h6 class="transformer-id"></h6>
                         </span>
                         <span class="card-transformer-details">
                             <!-- <h6> Transformer Location: </h6> -->
-                            <h6 id="transformer-location"></h6>
+                            <h6 class="transformer-location"></h6>
                         </span>
                         <span class="card-transformer-details">
                             <!-- <h6> Transformer Status: </h6> -->
-                            <h6 id="transformer-status"></h6>
+                            <h6 class="transformer-status"></h6>
                         </span>
                         <span class="card-transformer-details">
-                            <h6><a href="/readings.html">Details</a></h6>
+                            <h6><a href="readings.html">Details</a></h6>
                         </span>
                     </div>
                 </div>
@@ -85,70 +85,59 @@
 </script> -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=NULL&callback=initMap"></script>
 <script>
-    let loc = 'Pilani';
     let url = 'http://127.0.0.1:5000/';
+    url = 'http://172.16.15.225:5000/';
 
     async function initMap() {
 
-        let coords = await geocodeAddress(loc)
+        let transformerData = await getTransformerData()
             .then(response => {
                 return response;
             })
-
-        // let coords = {
-        //     "lat": 28.3802,
-        //     "lng": 75.6092
-        // }
-
-        var contentString = $('#card-wrapper').html();
-
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString
-        });
+        transformerData = JSON.parse(transformerData);
 
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 8,
-            center: coords
+            center: {
+                'lat': 30.3165,
+                'lng': 78.0322
+            }
         });
 
-        var marker = new google.maps.Marker({
-            position: coords,
-            map: map,
-            title: loc
-        });
+        for (var key in transformerData) {
 
+            var infowindow = new google.maps.InfoWindow({
+                content: markerBuilder(transformerData, key)
+            });
 
-        marker.addListener('click', async function() {
-            infowindow.open(map, marker);
-
-            let transformerData = await getTransformerData()
+            let coords = await geocodeAddress(transformerData[key]["location"])
                 .then(response => {
                     return response;
                 })
-            transformerData = JSON.parse(transformerData);
-            console.log(transformerData);
 
-            for (var key in transformerData) {
-                if (transformerData[key]["location"] == loc) {
-                    $('#transformer-id').html( "ID: <b>" + key + "</b>");
-                    $('#transformer-location').html( "Location: <b>" + transformerData[key]["location"] + "</b>");
-                    $('#transformer-status').html("Status: <b>" + transformerData[key]["status"] + "</b>");
-                }
-            }
-        })
+            var marker = new google.maps.Marker({
+                position: coords,
+                map: map,
+                title: transformerData[key]["location"]
+            });
+
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            })
+        }
     }
 
-    function geocodeAddress(place) {
-        return fetch('http://open.mapquestapi.com/geocoding/v1/address?key=nBLgikKLcex7cwzbLQo0K63Gr3Gh0j1i&location=' +
-                place)
-            .then(response => {
-                return response.json();
-            })
-            .then(jsonResponse => {
-                let coords = jsonResponse['results'][0]['locations'][0]['latLng'];
-                return coords;
-            })
-    }
+    // function geocodeAddress(place) {
+    //     return fetch('http://open.mapquestapi.com/geocoding/v1/address?key=nBLgikKLcex7cwzbLQo0K63Gr3Gh0j1i&location=' +
+    //             place)
+    //         .then(response => {
+    //             return response.json();
+    //         })
+    //         .then(jsonResponse => {
+    //             let coords = jsonResponse['results'][0]['locations'][0]['latLng'];
+    //             return coords;
+    //         })
+    // }
 
     function getTransformerData() {
         return fetch(url + 'transformers')
@@ -158,6 +147,42 @@
             .then(jsonResponse => {
                 return JSON.stringify(jsonResponse);
             })
+    }
+
+    function markerBuilder(transformerData, key) {
+
+        const t_key = key;
+        const t_location = transformerData[key]["location"];
+        const t_status = transformerData[key]["status"];
+
+        var contentString =
+            '<div class="row"> \
+                <div class="col s4"> \
+                    <div class="content-card"> \
+                        <span class="card-title"></span> \
+                        <span class="card-transformer-details"> \
+                            <h6 class="transformer-id"> Product Key: <b>' +
+            t_key +
+            ' </b></h6>    \
+                        </span> \
+                        <span class="card-transformer-details"> \
+                            <h6 class="transformer-location"> Product Location: <b>' +
+            t_location +
+            '</b></h6> \
+                        </span> \
+                        <span class="card-transformer-details"> \
+                            <h6 class="transformer-status"> Product Status: <b>' +
+            t_status +
+            '</b></h6>    \
+                        </span> \
+                        <span class="card-transformer-details"> \
+                            <h6><a href="readings.html">Details</a></h6>    \
+                        </span> \
+                    </div>  \
+                </div>  \
+            </div>'
+
+        return contentString;
     }
 </script>
 <script src="js/jquery-3.3.1.min.js"></script>

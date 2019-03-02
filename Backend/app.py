@@ -14,7 +14,8 @@ data = {
     'transformers': json.load(open('db/transformers.json')),
     'inventory': json.load(open('db/inventory.json')),
     'tickets': json.load(open('db/tickets.json')),
-    'health-history': json.load(open('db/health-history.json'))
+    'health-history': json.load(open('db/health-history.json')),
+    'threshold': json.load(open('db/threshold.json'))
 }
 
 no_of_tr=0
@@ -103,7 +104,7 @@ def update_transformers_list():
         new_data = request_data['new_data']
     except:
         return "KeyError: t_id, new_data", 500
-
+    print(data['transformers'])
     for new_key, new_value in new_data.items():
         data['transformers'][t_id][new_key] = new_value
 
@@ -113,18 +114,22 @@ def update_transformers_list():
     return "ok", 200
 
 
-@app.route('/update-inventory', methods=['POST'])
-@cross_origin()
 def update_inventory_list(product_count_json = None):
-    try:
-        request_data = request.get_json()
-        product_count_json = request_data['product_count_json']
-    except:
-        pass
-
     for product, count in product_count_json.items():
         data['inventory'][product]["amount"] = str(int(data['inventory'][product]["amount"])-int(product_count_json[product]["amount"]))
 
+    json.dump(data['inventory'], open('db/inventory.json', 'w'), indent=4)
+    return "ok", 200
+
+
+@app.route('/change-inventory', methods=['POST'])
+@cross_origin()
+def change_inventory():
+    request_data = request.get_json()
+    data['inventory'][request_data["name"]] = {
+        "amount": str(request_data["amount"]),
+        "threshold": str(request_data["threshold"])
+    }
     json.dump(data['inventory'], open('db/inventory.json', 'w'), indent=4)
     return "ok", 200
 
@@ -157,33 +162,38 @@ def update_health_history(t_id = None, health_data = None):
         health_data = data['health_data']
     except:
         pass
+    if 'health' not in data['health-history'][t_id]:
+        data['health-history'][t_id]['health'] = {}
 
     for health_data_key, health_data_value in health_data.items():
-        data['health-history'][t_id][health_data_key][time.ctime()] = health_data_value
+        if health_data_key not in data['health-history'][t_id]['health']:
+            data['health-history'][t_id]['health'][health_data_key] = {}
+        data['health-history'][t_id]['health'][health_data_key][time.time()]= health_data_value
+
     json.dump(data['health-history'], open('db/health-history.json', 'w'), indent=4)
     return "ok", 200
 
 
 @app.route('/add-transformer', methods=['POST'])
-@cross_origin()
 def add_transformer():
+    global no_of_tr
+    print(request)
     new_data = request.get_json()
+    print(new_data)
     t_location = new_data['location']
     no_of_tr += 1
     t_id = no_of_tr
-    data['transformers'][t_id] = {
+    data['transformers'][str(t_id)] = {
         "location": t_location,
-        "health": {
-            "oil": "-",
-            "current": "-"
-        }
+        "health": {}
     }
+    data['health-history'][str(t_id)] = {"health":{}}
+    json.dump(data['health-history'], open('db/health-history.json', 'w'), indent=4)
     json.dump(data['transformers'], open('db/transformers.json', 'w'), indent=4)
     return "ok", 200
 
 
 @app.route('/add-inventory', methods=['POST'])
-@cross_origin()
 def add_inventory():
     new_data = request.get_json()
     new_inventory_name = new_data['name']
@@ -196,20 +206,27 @@ def add_inventory():
 
 
 def add_ticket(t_id, t_data):
+    global no_of_ti
+    data['transformers'][t_id]['state'] = 'Normal'
+    print("The value of t_id is ", t_id)
+    print("The value of t_data is ", t_data)
+
     for h_key, h_data in t_data.items():
-        if data['threshold'][h_key] <= t_data['t_key']:
+        if int(data['threshold'][h_key]) <= int(h_data):
             no_of_ti += 1
-            data['tickets'][no_of_ti] = {
+            data['tickets'][str(no_of_ti)] = {
                 "transformer_id": t_id,
-                "date": time.ctime(),
+                "date": time.time(),
                 "is_resolved": False,
                 "is_new": True,
                 "details": h_key + " sensor has generated a critical alert",
                 "feedback": None
             }
+            data['transformers'][t_id]['state'] = 'Triggered'
+            break
 
     json.dump(data['tickets'], open('db/tickets.json', 'w'), indent=4)
 
 
 if __name__ == '__main__':
-    app.run(debug=True,host='172.16.15.91',port=5000)
+    app.run(debug=True, host="172.16.15.225")

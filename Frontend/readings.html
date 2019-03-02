@@ -82,20 +82,16 @@
                     <h4> Add Transfomer </h4>
                 </span>
                 <div class="row">
-                    <form class="col s12">
+                    <form class="col s12" id="add-transformer-form" method="POST" action="">
                         <div class="row">
                             <div class="input-field col s12 m4">
-                                <input id="product_name" type="text" class="validate">
-                                <label for="product_name">Product Name</label>
-                            </div>
-                            <div class="input-field col s12 m4">
-                                <input id="product_location" type="text" class="validate">
-                                <label for="product_location">Product Location</label>
+                                <input id="transformer_location" type="text" name="location" class="validate">
+                                <label for="transformer_location">Transfomer Location</label>
                             </div>
                             <div class="input-field col s12">
-                                <submit class="btn waves-effect waves-light">Add
+                                <button type="button" id="add-transformer-submit" class="btn waves-effect waves-light">Add
                                     <i class="material-icons right">send</i>
-                                </submit>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -108,84 +104,84 @@
 
         <div id="transformersDetailsTable">
             <div class="container">
-                <h4> Transformer </h4>
-                <span class="transformerDetails">
-                    <h6> Transformer ID: </h6>
-                    <h6 id="transformer-id"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Location: </h6>
-                    <h6 id="transformer-location"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Transfomer Status: </h6>
-                    <h6 id="transformer-status"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Power Output 1: </h6>
-                    <h6 id="transformer-po1"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Power Output 2: </h6>
-                    <h6 id="transformer-po2"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Power Output 3: </h6>
-                    <h6 id="transformer-po3"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Voltage Input 1: </h6>
-                    <h6 id="transformer-vi1"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Voltage Input 2: </h6>
-                    <h6 id="transformer-vi2"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Voltage Input 3: </h6>
-                    <h6 id="transformer-vi3"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Voltage Output 1: </h6>
-                    <h6 id="transformer-vo1"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Voltage Output 2: </h6>
-                    <h6 id="transformer-vo2"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Voltage Output 3: </h6>
-                    <h6 id="transformer-vo3"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Oil Level: </h6>
-                    <h6 id="transformer-oil"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Temperature 1: </h6>
-                    <h6 id="transformer-t1"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Temperature 2: </h6>
-                    <h6 id="transformer-t2"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Temperature 3: </h6>
-                    <h6 id="transformer-t3"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Buchholz Relay: </h6>
-                    <h6 id="transformer-br"></h6>
-                </span>
-                <span class="transformerDetails">
-                    <h6> Oil Pump: </h6>
-                    <h6 id="transformer-op"></h6>
-                </span>
-
-
-                <div class="container">
-                    <div id="chart-container"></div>
+                <div class="row">
+                    <h4> Transformer </h4>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Transformer ID: </h6>
+                        <h6 id="transformer-id"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Location: </h6>
+                        <h6 id="transformer-location"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Transfomer Status: </h6>
+                        <h6 id="transformer-status"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Power Output 1: </h6>
+                        <h6 id="transformer-po1"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Power Output 2: </h6>
+                        <h6 id="transformer-po2"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Power Output 3: </h6>
+                        <h6 id="transformer-po3"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Voltage Input 1: </h6>
+                        <h6 id="transformer-vi1"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Voltage Input 2: </h6>
+                        <h6 id="transformer-vi2"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Voltage Input 3: </h6>
+                        <h6 id="transformer-vi3"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Voltage Output 1: </h6>
+                        <h6 id="transformer-vo1"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Voltage Output 2: </h6>
+                        <h6 id="transformer-vo2"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Voltage Output 3: </h6>
+                        <h6 id="transformer-vo3"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Oil Level: </h6>
+                        <h6 id="transformer-oil"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Temperature 1: </h6>
+                        <h6 id="transformer-t1"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Temperature 2: </h6>
+                        <h6 id="transformer-t2"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Temperature 3: </h6>
+                        <h6 id="transformer-t3"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Buchholz Relay: </h6>
+                        <h6 id="transformer-br"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Oil Pump: </h6>
+                        <h6 id="transformer-op"></h6>
+                    </div>
                 </div>
+
+
+                <div id="chart-container"></div>
 
                 <button class="btn waves-effect waves-light" id="close-transformer-details" type="button">Close
                     <i class="material-icons right">close</i>
@@ -202,43 +198,54 @@
 
 <script>
     let url = 'http://127.0.0.1:5000/';
+    url = 'http://172.16.15.225:5000/';
 
     let transformer = [];
 
-    fetch(url + 'transformers', {
-            mode: 'cors'
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(jsonResponse => {
-            let transformerData = jsonResponse;
+    var addTransformerDataToTable = function () {
+        fetch(url + 'transformers', {
+                mode: 'cors'
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                let transformerData = jsonResponse;
 
-            for (var key in transformerData) {
-                let tableRow = document.createElement('tr');
+                for (var key in transformerData) {
+                    let tableRow = document.createElement('tr');
 
-                let tableData = document.createElement('td');
-                tableData.innerHTML = key;
-                tableRow.append(tableData);
+                    let tableData = document.createElement('td');
+                    tableData.innerHTML = key;
+                    tableRow.append(tableData);
 
-                tableData = document.createElement('td');
-                tableData.innerHTML = transformerData[key]["location"];
-                tableRow.append(tableData);
+                    tableData = document.createElement('td');
+                    tableData.innerHTML = transformerData[key]["location"];
+                    tableRow.append(tableData);
 
-                tableData = document.createElement('td');
-                tableData.innerHTML = transformerData[key]["health"]["state"];
-                tableRow.append(tableData);
+                    tableData = document.createElement('td');
+                    const state = transformerData[key]["status"];
+                    // console.log(state);
+                    if (typeof (state) == null)
+                        tableData.innerHTML = '-';
+                    else
+                        tableData.innerHTML = state;
+                    tableRow.append(tableData);
 
-                tableData = document.createElement('td');
-                tableData.innerHTML = '<a href="#" class="waves-effect waves-light details-open" id="details' + key +
-                    '">Details</a>';
-                tableRow.append(tableData);
+                    tableData = document.createElement('td');
+                    tableData.innerHTML =
+                        '<a href="#" class="waves-effect waves-light details-open" id="details' + key +
+                        '">Details</a>';
+                    tableRow.append(tableData);
 
-                $('#readings-table').append(tableRow);
-                transformer[key] = transformerData;
-                transformer[key]["key"] = key;
-            }
-        });
+                    $('#readings-table').append(tableRow);
+                    transformer[key] = transformerData;
+                    transformer[key]["key"] = key;
+                }
+            });
+    }
+
+    addTransformerDataToTable();
 
     // var trace3 = {
     //     x: [1, 2, 3, 4],
@@ -270,9 +277,36 @@
         }
     };
 
+    $('#add-transformer-submit').click(e => {
+        var formData = $("#add-transformer-form").serializeArray()[0];
+        var postData = {};
+        postData[formData["name"]] = formData.value;
+
+        fetch(url + 'add-transformer', {
+                method: 'POST',
+                body: JSON.stringify(postData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(response => {
+                alert('Successfully Added Transformer');
+                addTransformerDataToTable();
+                $('.modal').modal('close');
+            })
+            .catch(error => {
+                console.log(error);
+                alert('Error! Could not add Transformer');
+                $('.modal').modal('close');
+            });
+    });
+
 
     $(document).ready(function () {
         $('.modal').modal();
+
+        // $('#add-transformer-form').attr('action', url + 'add-transformer');
 
         $('.details-open').click(e => {
             $('#transformersDetailsTable').css('opacity', '0');
@@ -282,7 +316,11 @@
             let id = idString.substring(idString.length - 1, idString.length);
             $('#transformer-id').html(transformer[id]["key"]);
             $('#transformer-location').html(transformer[id][id]["location"]);
-            $('#transformer-status').html(transformer[id][id]["health"]["state"]);
+            let state = transformer[id][id]["status"];
+            if (state == null)
+                $('#transformer-status').html('-');
+            else
+                $('#transformer-status').html(state);
             $('#transformer-po1').html(transformer[id][id]["health"]["power_out_p1"]);
             $('#transformer-po2').html(transformer[id][id]["health"]["power_out_p2"]);
             $('#transformer-po3').html(transformer[id][id]["health"]["power_out_p3"]);
@@ -298,7 +336,7 @@
             $('#transformer-op').html(transformer[id][id]["health"]["oil_pump"]);
             $('#transformer-oil').html(transformer[id][id]["health"]["oil_level"]);
             $('#transformer-br').html(transformer[id][id]["health"]["Buchholz_relay"]);
-            
+
 
             Plotly.newPlot('chart-container', data, layout, {
                 responsive: true

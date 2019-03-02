@@ -97,9 +97,9 @@
                                 <label for="product_threshold">Product Threshold</label>
                             </div>
                             <div class="input-field col s12">
-                                <submit type="submit" class="btn waves-effect waves-light">Add
+                                <button type="button" id="add-inventory-submit" class="btn waves-effect waves-light">Add
                                     <i class="material-icons right">send</i>
-                                </submit>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -136,9 +136,9 @@
                                 <label for="product_threshold_update">Product Threshold</label>
                             </div>
                             <div class="input-field col s12">
-                                <submit type="submit" class="btn waves-effect waves-light">Update
+                                <button type="button" id="update-inventory-submit" class="btn waves-effect waves-light">Update
                                     <i class="material-icons right">send</i>
-                                </submit>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -157,47 +157,105 @@
 <script>
     let url = 'http://127.0.0.1:5000/';
 
-    fetch(url + 'inventory', {
-            mode: 'cors'
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(jsonResponse => {
-            let inventoryData = jsonResponse['inventory'];
-            let count = 0;
-            for (var key in inventoryData) {
-                let tableRow = document.createElement('tr');
-                tableRow.classList.add('inventory-table-row');
-                tableRow.setAttribute('id', 'table-row' + count);
+    var addInventoryToTable = function () {
+        fetch(url + 'inventory', {
+                mode: 'cors'
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                let inventoryData = jsonResponse['inventory'];
+                let count = 0;
+                for (var key in inventoryData) {
+                    let tableRow = document.createElement('tr');
+                    tableRow.classList.add('inventory-table-row');
+                    tableRow.setAttribute('id', 'table-row' + count);
 
-                let tableData = document.createElement('td');
-                tableData.innerHTML = key;
-                tableRow.appendChild(tableData);
+                    let tableData = document.createElement('td');
+                    tableData.innerHTML = key;
+                    tableRow.appendChild(tableData);
 
-                tableData = document.createElement('td');
-                tableData.innerHTML = inventoryData[key]['amount'];
-                tableRow.appendChild(tableData);
+                    tableData = document.createElement('td');
+                    tableData.innerHTML = inventoryData[key]['amount'];
+                    tableRow.appendChild(tableData);
 
-                tableData = document.createElement('td');
-                tableData.innerHTML = inventoryData[key]['threshold'];
-                tableRow.appendChild(tableData);
+                    tableData = document.createElement('td');
+                    tableData.innerHTML = inventoryData[key]['threshold'];
+                    tableRow.appendChild(tableData);
 
-                tableData = document.createElement('td');
-                tableData.innerHTML = '<a href="#updateInventoryModal" id="update' + count +
-                    '" href="#" class="modal-trigger update-link">Update</a>';
-                tableRow.appendChild(tableData);
+                    tableData = document.createElement('td');
+                    tableData.innerHTML = '<a href="#updateInventoryModal" id="update' + count +
+                        '" href="#" class="modal-trigger update-link">Update</a>';
+                    tableRow.appendChild(tableData);
 
-                $('#inventory-table').append(tableRow);
-                count++;
-            }
-        });
+                    $('#inventory-table').append(tableRow);
+                    count++;
+                }
+            });
+    }
+
+    addInventoryToTable();
+
+    $('#add-inventory-submit').click(e => {
+        var formData = $("#add-inventory-form").serializeArray();
+        var postData = {};
+        for (var i = 0; i < formData.length; i++) {
+            postData[formData[i]["name"]] = formData[i].value;
+        }
+
+        fetch(url + 'add-inventory', {
+                method: 'POST',
+                body: JSON.stringify(postData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(response => {
+                alert('Successfully Added Transformer');
+                addInventoryToTable();
+                $('.modal').modal('close');
+            })
+            .catch(error => {
+                console.log(error);
+                alert('Error! Could not add Transformer');
+                $('.modal').modal('close');
+            });
+    });
+
+    $('#update-inventory-submit').click(e => {
+        var formData = $("#update-inventory-form").serializeArray();
+        var postData = {};
+        for (var i = 0; i < formData.length; i++) {
+            postData[formData[i]["name"]] = formData[i].value;
+        }
+
+        fetch(url + 'update-inventory', {
+                method: 'POST',
+                body: JSON.stringify(postData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(response => {
+                alert('Successfully Updated Transformer');
+                addInventoryToTable();
+                $('.modal').modal('close');
+            })
+            .catch(error => {
+                console.log(error);
+                alert('Error! Could not update Transformer');
+                $('.modal').modal('close');
+            });
+    });
 
     $(document).ready(function () {
         $('.modal').modal();
 
-        $('#add-inventory-form').attr('action', url + 'add-inventory');
-        $('#update-inventory-form').attr('action', url + 'update-inventory');
+        // $('#add-inventory-form').attr('action', url + 'add-inventory');
+        // $('#update-inventory-form').attr('action', url + 'update-inventory');
 
         $('.update-link').click(e => {
             let idString = e.target.id;

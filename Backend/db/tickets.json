@@ -5,22 +5,14 @@
         "is_new": false,
         "details": "Oil is boiling",
         "date": "Thu Feb 28 11:04:26 2019",
-        "transformer_id": 1
+        "transformer_id": "1"
     },
     "2": {
-        "feedback": "Fgh",
-        "is_resolved": true,
+        "feedback": "Not resolved yet",
+        "is_resolved": false,
         "is_new": false,
         "details": "Oil is boiling again",
         "date": "Thu Feb 28 11:04:26 2019",
-        "transformer_id": 2,
-        "products_used": {
-            "T-sensors": {
-                "amount": "1"
-            },
-            "Wires": {
-                "amount": "1"
-            }
-        }
+        "transformer_id": "2"
     }
 }

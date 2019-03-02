@@ -17,7 +17,8 @@ data = {
     'health-history': json.load(open('db/health-history.json'))
 }
 
-no_of_t=0
+no_of_tr=0
+no_of_ti=0
 
 
 # Views
@@ -108,6 +109,7 @@ def update_transformers_list():
 
     json.dump(data['transformers'], open('db/transformers.json', 'w'), indent=4)
     update_health_history(t_id, new_data['health'])
+    add_ticket(t_id, new_data['health'])
     return "ok", 200
 
 
@@ -167,8 +169,8 @@ def update_health_history(t_id = None, health_data = None):
 def add_transformer():
     new_data = request.get_json()
     t_location = new_data['location']
-    no_of_t += 1
-    t_id = no_of_t
+    no_of_tr += 1
+    t_id = no_of_tr
     data['transformers'][t_id] = {
         "location": t_location,
         "health": {
@@ -191,6 +193,22 @@ def add_inventory():
     }
     json.dump(data['inventory'], open('db/inventory.json', 'w'), indent=4)
     return "ok", 200
+
+
+def add_ticket(t_id, t_data):
+    for h_key, h_data in t_data.items():
+        if data['threshold'][h_key] <= t_data['t_key']:
+            no_of_ti += 1
+            data['tickets'][no_of_ti] = {
+                "transformer_id": t_id,
+                "date": time.ctime(),
+                "is_resolved": False,
+                "is_new": True,
+                "details": h_key + " sensor has generated a critical alert",
+                "feedback": None
+            }
+
+    json.dump(data['tickets'], open('db/tickets.json', 'w'), indent=4)
 
 
 if __name__ == '__main__':

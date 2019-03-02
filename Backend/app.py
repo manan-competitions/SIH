@@ -167,7 +167,7 @@ def update_health_history(t_id = None, health_data = None):
     for health_data_key, health_data_value in health_data.items():
         if health_data_key not in data['health-history'][t_id]['health']:
             data['health-history'][t_id]['health'][health_data_key] = {}
-        data['health-history'][t_id]['health'][health_data_key][time.ctime()]= health_data_value
+        data['health-history'][t_id]['health'][health_data_key][time.time()]= health_data_value
     
     json.dump(data['health-history'], open('db/health-history.json', 'w'), indent=4)
     return "ok", 200
@@ -215,7 +215,7 @@ def add_ticket(t_id, t_data):
             no_of_ti += 1
             data['tickets'][str(no_of_ti)] = {
                 "transformer_id": t_id,
-                "date": time.ctime(),
+                "date": time.time(),
                 "is_resolved": False,
                 "is_new": True,
                 "details": h_key + " sensor has generated a critical alert",

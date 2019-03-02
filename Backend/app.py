@@ -140,13 +140,13 @@ def update_ticket_list():
 
 @app.route('/update-health', methods=['POST'])
 @cross_origin()
-def update_health_history():
+def update_health_history(t_id = None, health_data = None):
     try:
         request_data = request.get_json()
         t_id = request_data['t_id']
         health_data = data['health_data']
     except:
-        return "KeyError: t_id, health_data", 500
+        pass
 
     for health_data_key, health_data_value in health_data.items():
         data['health-history'][t_id][health_data_key][time.ctime()] = ticket_data_value

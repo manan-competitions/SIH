@@ -1,70 +1,26 @@
 {
     "1": {
         "health": {
-            "power_out_p1": {
-                "Sun Mar  3 02:39:49 2019": "100",
-                "Sun Mar  3 02:40:00 2019": "100"
-            },
-            "power_out_p2": {
-                "Sun Mar  3 02:39:49 2019": "100",
-                "Sun Mar  3 02:40:00 2019": "100"
-            },
-            "power_out_p3": {
-                "Sun Mar  3 02:39:49 2019": "100",
-                "Sun Mar  3 02:40:00 2019": "100"
-            },
-            "voltage_in_p1": {
-                "Sun Mar  3 02:39:49 2019": "15",
-                "Sun Mar  3 02:40:00 2019": "15"
-            },
-            "voltage_in_p2": {
-                "Sun Mar  3 02:39:49 2019": "15",
-                "Sun Mar  3 02:40:00 2019": "15"
-            },
-            "voltage_in_p3": {
-                "Sun Mar  3 02:39:49 2019": "15",
-                "Sun Mar  3 02:40:00 2019": "15"
-            },
-            "voltage_out_p1": {
-                "Sun Mar  3 02:39:49 2019": "125",
-                "Sun Mar  3 02:40:00 2019": "125"
-            },
-            "voltage_out_p2": {
-                "Sun Mar  3 02:39:49 2019": "125",
-                "Sun Mar  3 02:40:00 2019": "125"
-            },
-            "voltage_out_p3": {
-                "Sun Mar  3 02:39:49 2019": "125",
-                "Sun Mar  3 02:40:00 2019": "125"
-            },
-            "oil_level": {
-                "Sun Mar  3 02:39:49 2019": "50",
-                "Sun Mar  3 02:40:00 2019": "50"
-            },
-            "temp_1": {
-                "Sun Mar  3 02:39:49 2019": "35",
-                "Sun Mar  3 02:40:00 2019": "35"
-            },
-            "temp_2": {
-                "Sun Mar  3 02:39:49 2019": "16",
-                "Sun Mar  3 02:40:00 2019": "16"
-            },
-            "temp_3": {
-                "Sun Mar  3 02:39:49 2019": "35",
-                "Sun Mar  3 02:40:00 2019": "35"
-            },
-            "Buchholz_relay": {
-                "Sun Mar  3 02:39:49 2019": "1",
-                "Sun Mar  3 02:40:00 2019": "1"
-            },
-            "state": {
-                "Sun Mar  3 02:39:49 2019": "0",
-                "Sun Mar  3 02:40:00 2019": "0"
-            },
-            "oil_pump": {
-                "Sun Mar  3 02:39:49 2019": "0",
-                "Sun Mar  3 02:40:00 2019": "0"
-            }
+           "breather_moisture": {"Thu Feb 28 11:04:26 2019": "35"},
+           "buchholz_relay": {"Thu Feb 28 11:04:26 2019": "0"},
+           "efficiency": {"Thu Feb 28 11:04:26 2019": "50"},
+           "oil_level": {"Thu Feb 28 11:04:26 2019": "50"},
+           "oil_pump": {"Thu Feb 28 11:04:26 2019": "0"},
+           "oil_temp": {"Thu Feb 28 11:04:26 2019": "35"},
+           "power_out_p1": {"Thu Feb 28 11:04:26 2019": "100"},
+           "power_out_p2": {"Thu Feb 28 11:04:26 2019": "100"},
+           "power_out_p3": {"Thu Feb 28 11:04:26 2019": "100"},
+           "pressure_relay": {"Thu Feb 28 11:04:26 2019": "0"},
+           "vibration": {"Thu Feb 28 11:04:26 2019": "0"},
+           "voltage_in_p1": {"Thu Feb 28 11:04:26 2019": "15"},
+           "voltage_in_p2": {"Thu Feb 28 11:04:26 2019": "15"},
+           "voltage_in_p3": {"Thu Feb 28 11:04:26 2019": "15"},
+           "voltage_out_p1": {"Thu Feb 28 11:04:26 2019": "125"},
+           "voltage_out_p2": {"Thu Feb 28 11:04:26 2019": "125"},
+           "voltage_out_p3": {"Thu Feb 28 11:04:26 2019": "125"},
+           "winding_temp_1": {"Thu Feb 28 11:04:26 2019": "35"},
+           "winding_temp_2": {"Thu Feb 28 11:04:26 2019": "35"},
+           "winding_temp_3": {"Thu Feb 28 11:04:26 2019": "35"}
         }
     },
     "2": {

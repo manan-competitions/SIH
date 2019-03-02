@@ -77,9 +77,9 @@ def submit():
     except:
         pass
     """
-#    h_data = dict()
-#    for key,value in data.items():
-#        h_data[key] = {"Thu Feb 28 11:04:26 2019": value}
+    h_data = dict()
+    for key,value in data.items():
+        h_data[key] = {"Thu Feb 28 11:04:26 2019": value}
 
     #pprint(h_data)
 
@@ -198,9 +198,9 @@ vibr = tk.Label(window, text='Vibration',background='white', font=('Helvetica',1
 vibr.place(x=pad_x,y=175)
 
 def vibr_1_func():
-    if button_state1['relief'] == tk.RAISED:
-        button_state1.configure({'relief': tk.SUNKEN})
-        button_state2.configure({'relief': tk.RAISED})
+    if button_vibr1['relief'] == tk.RAISED:
+        button_vibr1.configure({'relief': tk.SUNKEN})
+        button_vibr2.configure({'relief': tk.RAISED})
 
 def vibr_2_func():
     if button_vibr2['relief'] == tk.RAISED:

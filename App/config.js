@@ -1,2 +1,2 @@
 
-export var BASE_URL = "http://192.168.43.207:5000"
+export var BASE_URL = "http://172.16.15.225:5000"

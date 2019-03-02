@@ -70,7 +70,7 @@ def get_unresolved_tickets():
         if not ticket_data['is_resolved']:
             unresolved_tickets[ticket_id] = ticket_data
 
-    return str(unresolved_tickets), 200
+    return json.dumps(unresolved_tickets), 200
 
 
 @app.route('/low-inventory', methods=['GET'])
@@ -127,7 +127,7 @@ def update_ticket_list():
     for ticket_data_key, ticket_data_value in ticket_data.items():
         data['tickets'][t_id][ticket_data_key] = ticket_data_value
 
-    update_inventory_list(ticket_data['products-used'])
+    update_inventory_list(ticket_data['products_used'])
     return "ok", 200
 
 

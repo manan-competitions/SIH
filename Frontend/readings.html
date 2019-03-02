@@ -116,8 +116,9 @@
                     </div>
                     <div class="transformerDetails col s12 m4">
                         <h6> Transfomer Status: </h6>
-                        <h6 id="transformer-status"></h6>
+                        <h6 id="transformer-health-status"></h6>
                     </div>
+
                     <div class="transformerDetails col s12 m4">
                         <h6> Power Output 1: </h6>
                         <h6 id="transformer-po1"></h6>
@@ -130,6 +131,7 @@
                         <h6> Power Output 3: </h6>
                         <h6 id="transformer-po3"></h6>
                     </div>
+
                     <div class="transformerDetails col s12 m4">
                         <h6> Voltage Input 1: </h6>
                         <h6 id="transformer-vi1"></h6>
@@ -142,6 +144,7 @@
                         <h6> Voltage Input 3: </h6>
                         <h6 id="transformer-vi3"></h6>
                     </div>
+
                     <div class="transformerDetails col s12 m4">
                         <h6> Voltage Output 1: </h6>
                         <h6 id="transformer-vo1"></h6>
@@ -154,29 +157,54 @@
                         <h6> Voltage Output 3: </h6>
                         <h6 id="transformer-vo3"></h6>
                     </div>
+
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Winding Temperature 1: </h6>
+                        <h6 id="transformer-t1"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Winding Temperature 2: </h6>
+                        <h6 id="transformer-t2"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Winding Temperature 3: </h6>
+                        <h6 id="transformer-t3"></h6>
+                    </div>
+
                     <div class="transformerDetails col s12 m4">
                         <h6> Oil Level: </h6>
                         <h6 id="transformer-oil"></h6>
                     </div>
                     <div class="transformerDetails col s12 m4">
-                        <h6> Temperature 1: </h6>
-                        <h6 id="transformer-t1"></h6>
+                        <h6> Oil Pump: </h6>
+                        <h6 id="transformer-op"></h6>
                     </div>
                     <div class="transformerDetails col s12 m4">
-                        <h6> Temperature 2: </h6>
-                        <h6 id="transformer-t2"></h6>
+                        <h6> Oil Temperature: </h6>
+                        <h6 id="transformer-oiltemp"></h6>
                     </div>
-                    <div class="transformerDetails col s12 m4">
-                        <h6> Temperature 3: </h6>
-                        <h6 id="transformer-t3"></h6>
-                    </div>
+
+
                     <div class="transformerDetails col s12 m4">
                         <h6> Buchholz Relay: </h6>
                         <h6 id="transformer-br"></h6>
                     </div>
                     <div class="transformerDetails col s12 m4">
-                        <h6> Oil Pump: </h6>
-                        <h6 id="transformer-op"></h6>
+                        <h6> Breather Moisture: </h6>
+                        <h6 id="transformer-bm"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Pressure Relay: </h6>
+                        <h6 id="transformer-pr"></h6>
+                    </div>
+
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Efficiency: </h6>
+                        <h6 id="transformer-eff"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Vibration: </h6>
+                        <h6 id="transformer-vib"></h6>
                     </div>
                 </div>
 
@@ -197,95 +225,9 @@
 <script src="js/materialize.min.js"></script>
 
 <script>
-    // let url = 'http://127.0.0.1:5000/';
+    let url = 'http://127.0.0.1:5000/';
     url = 'http://172.16.15.225:5000/';
     let transformer = [];
-
-    var addTransformerDataToTable = function () {
-        fetch(url + 'transformers', {
-                mode: 'cors'
-            })
-            .then(response => {
-                return response.json();
-            })
-            .then(jsonResponse => {
-                let transformerData = jsonResponse;
-                
-                $('.transformerTableRow').remove();
-
-                for (var key in transformerData) {
-                    let tableRow = document.createElement('tr');
-                    tableRow.classList.add('transformerTableRow');
-
-                    let tableData = document.createElement('td');
-                    tableData.innerHTML = key;
-                    tableRow.append(tableData);
-
-                    tableData = document.createElement('td');
-                    tableData.innerHTML = transformerData[key]["location"];
-                    tableRow.append(tableData);
-
-                    tableData = document.createElement('td');
-                    const state = transformerData[key]["status"];
-                    // console.log(state);
-                    if (state == null)
-                        tableData.innerHTML = '-';
-                    else{
-                        tableData.innerHTML = state;
-                        tableData.classList.add(state);
-                    }
-                        
-                    tableRow.append(tableData);
-
-                    tableData = document.createElement('td');
-                    tableData.innerHTML =
-                        '<a href="#" class="waves-effect waves-light details-open" id="details' + key +
-                        '">Details</a>';
-                    tableRow.append(tableData);
-
-                    $('#readings-table').append(tableRow);
-                    transformer[key] = transformerData;
-                    transformer[key]["key"] = key;
-
-                    $('.details-open').click(e => {
-                        $('#transformersDetailsTable').css('opacity', '0');
-                        $('#transformersDetailsTable').css('opacity', '1');
-
-                        let idString = e.target.id;
-                        let id = idString.substring(idString.length - 1, idString.length);
-                        $('#transformer-id').html(transformer[id]["key"]);
-                        $('#transformer-location').html(transformer[id][id]["location"]);
-                        let state = transformer[id][id]["status"];
-                        if (state == null)
-                            $('#transformer-status').html('-');
-                        else
-                            $('#transformer-status').html(state);
-                        $('#transformer-po1').html(transformer[id][id]["health"]["power_out_p1"]);
-                        $('#transformer-po2').html(transformer[id][id]["health"]["power_out_p2"]);
-                        $('#transformer-po3').html(transformer[id][id]["health"]["power_out_p3"]);
-                        $('#transformer-vi1').html(transformer[id][id]["health"]["voltage_in_p1"]);
-                        $('#transformer-vi2').html(transformer[id][id]["health"]["voltage_in_p2"]);
-                        $('#transformer-vi3').html(transformer[id][id]["health"]["voltage_in_p3"]);
-                        $('#transformer-vo1').html(transformer[id][id]["health"]["voltage_out_p1"]);
-                        $('#transformer-vo2').html(transformer[id][id]["health"]["voltage_out_p2"]);
-                        $('#transformer-vo3').html(transformer[id][id]["health"]["voltage_out_p3"]);
-                        $('#transformer-t1').html(transformer[id][id]["health"]["temp_1"]);
-                        $('#transformer-t2').html(transformer[id][id]["health"]["temp_2"]);
-                        $('#transformer-t3').html(transformer[id][id]["health"]["temp_3"]);
-                        $('#transformer-op').html(transformer[id][id]["health"]["oil_pump"]);
-                        $('#transformer-oil').html(transformer[id][id]["health"]["oil_level"]);
-                        $('#transformer-br').html(transformer[id][id]["health"]["Buchholz_relay"]);
-
-
-                        Plotly.newPlot('chart-container', data, layout, {
-                            responsive: true
-                        });
-                    });
-                }
-            });
-    }
-
-    addTransformerDataToTable();
 
     // var trace3 = {
     //     x: [1, 2, 3, 4],
@@ -316,6 +258,104 @@
             title: 'Temperature'
         }
     };
+
+    var addTransformerDataToTable = function () {
+        fetch(url + 'transformers', {
+                mode: 'cors'
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                let transformerData = jsonResponse;
+
+                $('.transformerTableRow').remove();
+
+                for (var key in transformerData) {
+                    let tableRow = document.createElement('tr');
+                    tableRow.classList.add('transformerTableRow');
+
+                    let tableData = document.createElement('td');
+                    tableData.innerHTML = key;
+                    tableRow.append(tableData);
+
+                    tableData = document.createElement('td');
+                    tableData.innerHTML = transformerData[key]["location"];
+                    tableRow.append(tableData);
+
+                    tableData = document.createElement('td');
+                    const state = transformerData[key]["state"];
+                    // console.log(state);
+                    if (state == null)
+                        tableData.innerHTML = '-';
+                    else {
+                        tableData.innerHTML = state;
+                        tableData.classList.add(state);
+                    }
+
+                    tableRow.append(tableData);
+
+                    tableData = document.createElement('td');
+                    tableData.innerHTML =
+                        '<a href="#" class="waves-effect waves-light details-open" id="details' + key +
+                        '">Details</a>';
+                    tableRow.append(tableData);
+
+                    $('#readings-table').append(tableRow);
+                    transformer[key] = transformerData;
+                    transformer[key]["key"] = key;
+
+                    $('.details-open').click(e => {
+                        $('#transformersDetailsTable').css('opacity', '0');
+                        $('#transformersDetailsTable').css('opacity', '1');
+
+                        let idString = e.target.id;
+                        let id = idString.substring(idString.length - 1, idString.length);
+                        $('#transformer-id').html(transformer[id]["key"]);
+                        $('#transformer-location').html(transformer[id][id]["location"]);
+                        let state = transformer[id][id]["state"];
+                        if (state == null)
+                            $('#transformer-health-status').html('-');
+                        else {
+                            $('#transformer-health-status').html(state);
+                            $('#transformer-health-status').addClass(state);
+                        }
+
+                        $('#transformer-po1').html(transformer[id][id]["health"]["power_out_p1"]);
+                        $('#transformer-po2').html(transformer[id][id]["health"]["power_out_p2"]);
+                        $('#transformer-po3').html(transformer[id][id]["health"]["power_out_p3"]);
+
+                        $('#transformer-vi1').html(transformer[id][id]["health"]["voltage_in_p1"]);
+                        $('#transformer-vi2').html(transformer[id][id]["health"]["voltage_in_p2"]);
+                        $('#transformer-vi3').html(transformer[id][id]["health"]["voltage_in_p3"]);
+
+                        $('#transformer-vo1').html(transformer[id][id]["health"]["voltage_out_p1"]);
+                        $('#transformer-vo2').html(transformer[id][id]["health"]["voltage_out_p2"]);
+                        $('#transformer-vo3').html(transformer[id][id]["health"]["voltage_out_p3"]);
+
+                        $('#transformer-t1').html(transformer[id][id]["health"]["winding_temp_1"]);
+                        $('#transformer-t2').html(transformer[id][id]["health"]["winding_temp_2"]);
+                        $('#transformer-t3').html(transformer[id][id]["health"]["winding_temp_3"]);
+
+                        $('#transformer-op').html(transformer[id][id]["health"]["oil_pump"]);
+                        $('#transformer-oil').html(transformer[id][id]["health"]["oil_level"]);
+                        $('#transformer-oiltemp').html(transformer[id][id]["health"]["oil_temp"]);
+
+                        $('#transformer-br').html(transformer[id][id]["health"]["buchholz_relay"]);
+                        $('#transformer-bm').html(transformer[id][id]["health"]["breather_moisture"]);
+                        $('#transformer-eff').html(transformer[id][id]["health"]["efficiency"]);
+                        $('#transformer-pr').html(transformer[id][id]["health"]["pressure_relay"]);
+                        $('#transformer-vib').html(transformer[id][id]["health"]["vibration"]);
+
+                        Plotly.newPlot('chart-container', data, layout, {
+                            responsive: true
+                        });
+                    });
+                }
+            });
+    }
+
+    addTransformerDataToTable();
 
     $('#add-transformer-submit').click(e => {
         var formData = $("#add-transformer-form").serializeArray()[0];

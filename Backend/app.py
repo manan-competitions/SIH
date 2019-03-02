@@ -3,10 +3,10 @@ import json
 import requests
 import time
 from flask import Flask, request, jsonify
-#from flask_cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-#cors = CORS(app)
+cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 count = 0
 data = {
@@ -30,12 +30,12 @@ def get_transformer_list():
 
 
 @app.route('/inventory', methods=['GET'])
-# @cross_origin()
+@cross_origin()
 def get_inventory_list():
     return jsonify(inventory=data['inventory'], status_code=200)
 
 @app.route('/tickets', methods=['GET'])
-# @cross_origin()
+@cross_origin()
 def get_tickets_list():
     return jsonify(data['tickets']), 200
 

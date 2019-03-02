@@ -50,28 +50,38 @@
         <div class="container">
             <table id="tickets-table">
                 <tr>
-                    <th> Transformer ID </th>
+                    <th> Ticket ID </th>
                     <th> Date Issued </th>
                     <th> Feedback </th>
                     <th></th>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>1</td>
                     <td>28/02/2019</td>
                     <td>Not resolved</td>
-                    <td><a href="#ticketsModal" class="waves-effect waves-light btn modal-trigger">Details</a></td>
-                </tr>
+                    <td><a href="#ticketsModal" class="detailsLink" id="detailsLink1" class="waves-effect waves-light btn modal-trigger">Details</a></td>
+                </tr> -->
             </table>
         </div>
 
         <div id="ticketsModal" class="modal">
             <div class="modal-content">
                 <h4> Ticket </h4>
-                <h6> Transformer ID: 1</h6>
-                <h6> Ticket issued on: 28/02/2019 </h6>
-                <h6> Ticket Status: </h6>
-                <h6> Details: </h6>
-                <h6> Feedback: </h6>
+                <span class="ticketDetails"><h6> Ticket ID: </h6>
+                    <h6 id="ticket-id"></h6>
+                </span>
+                <span class="ticketDetails"><h6> Ticket issued on:  </h6>
+                    <h6 id="ticket-date"></h6>
+                </span>
+                <span class="ticketDetails"><h6> Ticket Status: </h6>
+                    <h6 id="ticket-status"></h6>
+                </span>
+                <span class="ticketDetails"><h6> Details: </h6>
+                    <h6 id="ticket-details"></h6>
+                </span>
+                <span class="ticketDetails"><h6> Feedback: </h6>
+                    <h6 id="ticket-feedback"></h6>
+                </span>
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
@@ -85,8 +95,62 @@
 <script src="js/materialize.min.js"></script>
 
 <script>
+    let url = 'http://127.0.0.1:5000/';
+
+    let tickets = [];
+
+    fetch(url + 'tickets', {
+        mode: 'cors'
+    })
+    .then (response => {
+        return response.json();
+    })
+    .then( jsonResponse => {
+        let ticketsData = jsonResponse;
+        for( var key in ticketsData) {
+            let tableRow = document.createElement('tr');
+            
+            let tableData = document.createElement('td');
+            tableData.innerHTML = key;
+            tableRow.appendChild(tableData);
+
+            tableData = document.createElement('td');
+            let date = ticketsData[key]['date'].split(' ');
+            tableData.innerHTML = date[1] + ' ' + date[2] + ' ' + date[4];
+            tableRow.appendChild(tableData);
+
+            tableData = document.createElement('td');
+            tableData.innerHTML = ticketsData[key]['feedback'];
+            tableRow.appendChild(tableData);
+
+            tableData = document.createElement('td');
+            tableData.classList.add('detailsLink')
+            tableData.innerHTML = '<a href="#ticketsModal" id="detailsLink' + key + '" class="waves-effect waves-light btn modal-trigger">Details</a>';
+            tableRow.appendChild(tableData);
+
+            $('#tickets-table').append(tableRow);
+            
+            tickets[key] = ticketsData[key];
+            tickets[key]["key"] = key;
+        }
+    });
+
     $(document).ready(function () {
         $('.modal').modal();
+        
+        $('.detailsLink').click( e => {
+            let idString = e.target.id;
+            let id = idString.substring( idString.length-1, idString.length);
+            $('#ticket-id').html(tickets[id]["key"]);
+            $('#ticket-details').html(tickets[id]["details"]);
+            $('#ticket-feedback').html(tickets[id]["feedback"]);
+            $('#ticket-date').html(tickets[id]["date"]);
+            if( tickets[id]["is_resolved"])
+                $('#ticket-status').html("Resolved");
+            else
+                $('#ticket-status').html("Not Resolved");
+        })
+
     });
 </script>
 

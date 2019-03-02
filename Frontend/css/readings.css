@@ -18,3 +18,16 @@
 .readings-wrapper {
     margin-top: 3vh;
 }
+
+#transformersDetailsTable .container{
+    background: #f3f3f3;
+    padding: 1vh 2vw;
+}
+
+#transformersDetailsTable {
+    margin: 3vh auto;
+}
+
+#close-transformer-details {
+    margin: 2vh auto;
+}

@@ -58,26 +58,22 @@
                 <tr>
                     <th> Transformer ID </th>
                     <th> Transformer Location </th>
-                    <th> Temperature </th>
                     <th> Status </th>
+                    <th></th>
                 </tr>
                 <tr>
                     <td> 1 </td>
                     <td> Dehradun </td>
-                    <td> 45 </td>
                     <td> Good </td>
+                    <td><a class="waves-effect waves-light">Details</a></td>
                 </tr>
                 <tr>
                     <td> 1 </td>
                     <td> Gurgaon </td>
-                    <td> 90 </td>
                     <td> Poor </td>
+                    <td><a class="waves-effect waves-light">Details</a></td>
                 </tr>
             </table>
-        </div>
-
-        <div class="container">
-            <div id="chart-container"></div>
         </div>
 
         <div id="addTransformerModal" class="modal">
@@ -109,6 +105,39 @@
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
+
+        <div id="transformersDetailsTable">
+            <div class="container">
+                <h4> Transformer </h4>
+                <span class="transformerDetails">
+                    <h6> Transformer ID: </h6>
+                    <h6 id="transformer-id"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Location: </h6>
+                    <h6 id="transformer-location"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Transfomer Status: </h6>
+                    <h6 id="transformer-status"></h6>
+                </span>
+                <span class="transformerDetails">
+                    <h6> Oil: </h6>
+                    <h6 id="transformer-oil"></h6>
+                </span>
+
+
+                <div class="container">
+                    <div id="chart-container"></div>
+                </div>
+
+                <button class="btn waves-effect waves-light" id="close-transformer-details" type="button">Close
+                    <i class="material-icons right">close</i>
+                </button>
+            </div>
+        </div>
+
+
     </div>
 
 </body>
@@ -116,7 +145,6 @@
 <script src="js/materialize.min.js"></script>
 
 <script>
-
     $(document).ready(function () {
         $('.modal').modal();
     });
@@ -154,7 +182,6 @@
     Plotly.newPlot('chart-container', data, layout, {
         responsive: true
     });
-    
 </script>
 <script src="js/particle.js"></script>
 <script src="js/main.js"></script>

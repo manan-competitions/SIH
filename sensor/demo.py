@@ -9,7 +9,7 @@ size_img = (300,200)
 res = (1440,900)
 pad_x = 10
 pad_y = 5
-ip = '172.16.15.91:5000'
+ip = '172.16.15.225:5000'
 server_ip = f'http://{ip}/update-transformers'
 
 def submit():
@@ -31,22 +31,33 @@ def submit():
     data['voltage_out_p2'] = str(scale_volt_out_p2.get())
     data['voltage_out_p3'] = str(scale_volt_out_p3.get())
     data['oil_level'] = str(scale_oil.get())
-    data['temp_1'] = str(temp_scale_1.get())
-    data['temp_2'] = str(temp_scale_2.get())
-    data['temp_3'] = str(temp_scale_3.get())
-    if button_relay1['relief'] == tk.SUNKEN:
-        data['Buchholz_relay'] = '0'
-    elif button_relay2['relief'] == tk.SUNKEN:
-        data['Buchholz_relay'] = '1'
+    data['efficiency'] = str(scale_eff.get())
+    data['winding_temp_1'] = str(temp_scale_1.get())
+    data['winding_temp_2'] = str(temp_scale_2.get())
+    data['winding_temp_3'] = str(temp_scale_3.get())
+    data['oil_temp'] = str(temp_scale_4.get())
+    data['breather_moisture'] = str(temp_scale_5.get())
+    if button_brelay1['relief'] == tk.SUNKEN:
+        data['buchholz_relay'] = '0'
+    elif button_brelay2['relief'] == tk.SUNKEN:
+        data['buchholz_relay'] = '1'
     else:
-        data['Buchholz_relay'] = '0'
+        data['buchholz_relay'] = '0'
 
-    if button_state1['relief'] == tk.SUNKEN:
-        data['state'] = '0'
-    elif button_state2['relief'] == tk.SUNKEN:
-        data['state'] = '1'
+    if button_grelay1['relief'] == tk.SUNKEN:
+        data['pressure_relay'] = '0'
+    elif button_grelay2['relief'] == tk.SUNKEN:
+        data['pressre_relay'] = '1'
     else:
-        data['state'] = '0'
+        data['pressure_relay'] = '0'
+
+    if button_vibr1['relief'] == tk.SUNKEN:
+        data['vibration'] = '0'
+    elif button_vibr2['relief'] == tk.SUNKEN:
+        data['vibration'] = '1'
+    else:
+        data['vibration'] = '0'
+
 
     if button_temp1['relief'] == tk.SUNKEN:
         data['oil_pump'] = '0'
@@ -58,13 +69,17 @@ def submit():
         data['oil_pump'] = '0'
 
     #print(t_id)
-    #pprint(data)
-
-    r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
-
-    h_data = dict()
-    for key,value in data.items():
-        h_data[key] = {"Thu Feb 28 11:04:26 2019": value}
+    pprint(data)
+    """
+    try:
+        r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
+        print('Request sent')
+    except:
+        pass
+    """
+#    h_data = dict()
+#    for key,value in data.items():
+#        h_data[key] = {"Thu Feb 28 11:04:26 2019": value}
 
     #pprint(h_data)
 
@@ -149,7 +164,7 @@ scale_volt_out_p3.set(125)
 
 # Oil pump
 oil_pump = tk.Label(window, text='Oil Pump',background='white', font=('Helvetica',16,'bold'))
-oil_pump.place(x=pad_x,y=100)
+oil_pump.place(x=pad_x,y=120)
 
 def temp_b1_func():
     if button_temp1['relief'] == tk.RAISED:
@@ -170,87 +185,131 @@ def temp_b3_func():
 
 button_temp1 = tk.Button(window, text = 'Healthy', relief=tk.RAISED, command = temp_b1_func,
                         bg='#99ff66', fg='black', font=('Helvetica',12), borderwidth=2)
-button_temp1.place(x=200,y=100)
+button_temp1.place(x=200,y=120)
 button_temp2 = tk.Button(window, text = 'Abnormal', relief=tk.RAISED, command=temp_b2_func,
                         bg='#ff9933', fg='black', font=('Helvetica',12), borderwidth=2)
-button_temp2.place(x=285,y=100)
+button_temp2.place(x=285,y=120)
 button_temp3 = tk.Button(window, text = 'Failed', relief=tk.RAISED, command=temp_b3_func,
                         bg='#ff3333', fg='black', font=('Helvetica',12), borderwidth=2)
-button_temp3.place(x=383,y=100)
+button_temp3.place(x=383,y=120)
 
-# State
-state = tk.Label(window, text='State',background='white', font=('Helvetica',16,'bold'))
-state.place(x=pad_x,y=175)
+# vibr
+vibr = tk.Label(window, text='Vibration',background='white', font=('Helvetica',16,'bold'))
+vibr.place(x=pad_x,y=175)
 
-def state_1_func():
+def vibr_1_func():
     if button_state1['relief'] == tk.RAISED:
         button_state1.configure({'relief': tk.SUNKEN})
         button_state2.configure({'relief': tk.RAISED})
 
-def state_2_func():
-    if button_state2['relief'] == tk.RAISED:
-        button_state1.configure({'relief': tk.RAISED})
-        button_state2.configure({'relief': tk.SUNKEN})
+def vibr_2_func():
+    if button_vibr2['relief'] == tk.RAISED:
+        button_vibr1.configure({'relief': tk.RAISED})
+        button_vibr2.configure({'relief': tk.SUNKEN})
 
-button_state1 = tk.Button(window, text = 'Normal', relief=tk.RAISED, command = state_1_func,
+button_vibr1 = tk.Button(window, text = 'Normal', relief=tk.RAISED, command = vibr_1_func,
                         bg='#99ff66', fg='black', font=('Helvetica',12), borderwidth=2)
-button_state1.place(x=200,y=175)
-button_state2 = tk.Button(window, text = 'Triggered', relief=tk.RAISED, command=state_2_func,
+button_vibr1.place(x=200,y=175)
+button_vibr2 = tk.Button(window, text = 'Abnormal', relief=tk.RAISED, command=vibr_2_func,
                         bg='#ff3333', fg='black', font=('Helvetica',12), borderwidth=2)
-button_state2.place(x=285,y=175)
+button_vibr2.place(x=285,y=175)
 
-# Relay
-state = tk.Label(window, text='Buchholz relay',background='white', font=('Helvetica',16,'bold'))
-state.place(x=pad_x,y=25)
+# Buchholz Relay
+bstate = tk.Label(window, text='Buchholz relay',background='white', font=('Helvetica',16,'bold'))
+bstate.place(x=pad_x,y=25)
 
-def relay_1_func():
-    if button_relay1['relief'] == tk.RAISED:
-        button_relay1.configure({'relief': tk.SUNKEN})
-        button_relay2.configure({'relief': tk.RAISED})
+def brelay_1_func():
+    if button_brelay1['relief'] == tk.RAISED:
+        button_brelay1.configure({'relief': tk.SUNKEN})
+        button_brelay2.configure({'relief': tk.RAISED})
 
-def relay_2_func():
-    if button_relay2['relief'] == tk.RAISED:
-        button_relay1.configure({'relief': tk.RAISED})
-        button_relay2.configure({'relief': tk.SUNKEN})
+def brelay_2_func():
+    if button_brelay2['relief'] == tk.RAISED:
+        button_brelay1.configure({'relief': tk.RAISED})
+        button_brelay2.configure({'relief': tk.SUNKEN})
 
-button_relay1 = tk.Button(window, text = 'Normal', relief=tk.RAISED, command = relay_1_func,
+button_brelay1 = tk.Button(window, text = 'Normal', relief=tk.RAISED, command = brelay_1_func,
                         bg='#99ff66', fg='black', font=('Helvetica',12), borderwidth=2)
-button_relay1.place(x=200,y=25)
-button_relay2 = tk.Button(window, text = 'Triggered', relief=tk.RAISED, command=relay_2_func,
+button_brelay1.place(x=200,y=25)
+button_brelay2 = tk.Button(window, text = 'Triggered', relief=tk.RAISED, command=brelay_2_func,
                         bg='#ff3333', fg='black', font=('Helvetica',12), borderwidth=2)
-button_relay2.place(x=285,y=25)
+button_brelay2.place(x=285,y=25)
+
+# Pressure Relay
+gstate = tk.Label(window, text='Pressure relay',background='white', font=('Helvetica',16,'bold'))
+gstate.place(x=pad_x,y=70)
+
+def grelay_1_func():
+    if button_grelay1['relief'] == tk.RAISED:
+        button_grelay1.configure({'relief': tk.SUNKEN})
+        button_grelay2.configure({'relief': tk.RAISED})
+
+def grelay_2_func():
+    if button_grelay2['relief'] == tk.RAISED:
+        button_grelay1.configure({'relief': tk.RAISED})
+        button_grelay2.configure({'relief': tk.SUNKEN})
+
+button_grelay1 = tk.Button(window, text = 'Normal', relief=tk.RAISED, command = grelay_1_func,
+                        bg='#99ff66', fg='black', font=('Helvetica',12), borderwidth=2)
+button_grelay1.place(x=200,y=70)
+button_grelay2 = tk.Button(window, text = 'Triggered', relief=tk.RAISED, command=grelay_2_func,
+                        bg='#ff3333', fg='black', font=('Helvetica',12), borderwidth=2)
+button_grelay2.place(x=285,y=70)
 
 # oil level
 oil_level = tk.Label(window, text='Oil Level (%)',background='white', font=('Helvetica',16,'bold'))
-oil_level.place(x=pad_x,y=250)
+oil_level.place(x=pad_x,y=230)
 
 scale_oil = tk.Scale(window, from_=0, to=100, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=240)
-scale_oil.place(x=200,y=240)
+scale_oil.place(x=200,y=220)
 scale_oil.set(50)
+
+# efficiency
+eff = tk.Label(window, text='Efficiency (%)',background='white', font=('Helvetica',16,'bold'))
+eff.place(x=pad_x,y=300)
+
+scale_eff = tk.Scale(window, from_=0, to=100, orient=tk.HORIZONTAL, background='gray',
+                    width=20, length=240)
+scale_eff.place(x=200,y=290)
+scale_eff.set(50)
 
 # oil Temperature
 
-temp_1 = tk.Label(window, text='Temp Sensor 1 (Celsius)',background='white', font=('Helvetica',16,'bold'))
+temp_1 = tk.Label(window, text='Winding Temp Sensor 1',background='white', font=('Helvetica',16,'bold'))
 temp_1.place(x=850,y=75)
 temp_scale_1 = tk.Scale(window, from_=0, to=110, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=240)
 temp_scale_1.place(x=1111,y=70)
 temp_scale_1.set(35)
 
-temp_2 = tk.Label(window, text='Temp Sensor 2 (Celsius)',background='white', font=('Helvetica',16,'bold'))
+temp_2 = tk.Label(window, text='Winding Temp Sensor 2',background='white', font=('Helvetica',16,'bold'))
 temp_2.place(x=850,y=135)
 temp_scale_2 = tk.Scale(window, from_=0, to=110, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=240)
 temp_scale_2.place(x=1111, y=130)
 temp_scale_2.set(35)
 
-temp_3 = tk.Label(window, text='Temp Sensor 3 (Celsius)',background='white', font=('Helvetica',16,'bold'))
+temp_3 = tk.Label(window, text='Winding Temp Sensor 3',background='white', font=('Helvetica',16,'bold'))
 temp_3.place(x=850,y=195)
 temp_scale_3 = tk.Scale(window, from_=0, to=110, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=240)
 temp_scale_3.place(x=1111,y=190)
 temp_scale_3.set(35)
+
+temp_4 = tk.Label(window, text='Oil Temp Sensor',background='white', font=('Helvetica',16,'bold'))
+temp_4.place(x=850,y=15)
+temp_scale_4 = tk.Scale(window, from_=0, to=110, orient=tk.HORIZONTAL, background='gray',
+                    width=20, length=240)
+temp_scale_4.place(x=1111,y=10)
+temp_scale_4.set(35)
+
+temp_5 = tk.Label(window, text='Breather Moisture Saturation',background='white', font=('Helvetica',16,'bold'))
+temp_5.place(x=800,y=255)
+temp_scale_5 = tk.Scale(window, from_=0, to=100, orient=tk.HORIZONTAL, background='gray',
+                    width=20, length=240)
+temp_scale_5.place(x=1111,y=250)
+temp_scale_5.set(35)
 
 # compound
 

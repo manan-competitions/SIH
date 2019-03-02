@@ -2,5 +2,9 @@
     "T-sensors":{
         "amount": 4,
         "threshold": 2
+    },
+    "Wires":{
+        "amount": 10,
+        "threshold": 4
     }
 }

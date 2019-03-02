@@ -24,9 +24,9 @@
 }
 
 #updateInventoryModal .update-details h6 {
-    display: inline-block
+    display: inline-block;
 }
-
-#updateInventoryBlock .update-details {
+#updateInventoryModal .update-details {
     display: block;
 }
+

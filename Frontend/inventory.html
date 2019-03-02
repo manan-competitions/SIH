@@ -55,24 +55,24 @@
 
             <table id="inventory-table">
                 <tr>
-                    <th> Product ID </th>
                     <th> Product Name </th>
                     <th> Quantity </th>
+                    <th> Threshold </th>
                     <th></th>
                 </tr>
-                <tr class="inventory-table-row">
-                    <td> 1 </td>
+                <!-- <tr class="inventory-table-row" id="table-row-1">
                     <td> Wire </td>
                     <td> 120 </td>
+                    <td> 6 </td>
                     <td> <a href="#updateInventoryModal" id="update0" class="modal-trigger update-link">Update</a> </td>
                 </tr>
-                <tr class="inventory-table-row">
-                    <td> 2 </td>
+                <tr class="inventory-table-row" id="table-row-2">
                     <td> Battery </td>
                     <td> 200 </td>
+                    <td> 4 </td>
                     <td> <a href="#updateInventoryModal" id="update1" href="#" class="modal-trigger update-link">Update</a>
                     </td>
-                </tr>
+                </tr> -->
             </table>
         </div>
 
@@ -82,18 +82,22 @@
                     <h4> Add Inventory </h4>
                 </span>
                 <div class="row">
-                    <form class="col s12">
+                    <form class="col s12" id="add-inventory-form" method="POST" action="">
                         <div class="row">
                             <div class="input-field col s12 m4">
-                                <input id="product_name" type="text" class="validate">
+                                <input id="product_name" type="text" name="name" class="validate">
                                 <label for="product_name">Product Name</label>
                             </div>
                             <div class="input-field col s12 m4">
-                                <input id="product_quantity" type="number" class="validate">
+                                <input id="product_quantity" type="number" name="amount" class="validate">
                                 <label for="product_quantity">Product Quantity</label>
                             </div>
+                            <div class="input-field col s12 m4">
+                                <input id="product_threshold" type="number" name="threshold" class="validate">
+                                <label for="product_threshold">Product Threshold</label>
+                            </div>
                             <div class="input-field col s12">
-                                <submit class="btn waves-effect waves-light">Add
+                                <submit type="submit" class="btn waves-effect waves-light">Add
                                     <i class="material-icons right">send</i>
                                 </submit>
                             </div>
@@ -112,23 +116,27 @@
                     <h5> Update Inventory </h5>
                 </span>
                 <div class="update-details">
-                    <h6> Product Id: </h6>
-                    <h6 id="update_product_id"></h6>
-                </div>
-                <div class="update-details">
                     <h6> Product Name: </h6>
                     <h6 id="update_product_name"></h6>
                 </div>
 
                 <div class="row">
-                    <form class="col s12">
+                    <form class="col s12" id="update-inventory-form" method="POST" action="">
                         <div class="row">
+                            <div class="input-field col s12 m4 no-display">
+                                <input id="product_name_update" type="text" name="name" class="validate">
+                                <label for="product_name_update">Product Name</label>
+                            </div>
                             <div class="input-field col s12 m4">
-                                <input id="product_quantity_update" type="number" class="validate">
+                                <input id="product_quantity_update" type="number" name="amount" class="validate">
                                 <label for="product_quantity_update">Product Quantity</label>
                             </div>
+                            <div class="input-field col s12 m4">
+                                <input id="product_threshold_update" type="number" name="threshold" class="validate">
+                                <label for="product_threshold_update">Product Threshold</label>
+                            </div>
                             <div class="input-field col s12">
-                                <submit class="btn waves-effect waves-light">Update
+                                <submit type="submit" class="btn waves-effect waves-light">Update
                                     <i class="material-icons right">send</i>
                                 </submit>
                             </div>
@@ -147,34 +155,62 @@
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/materialize.min.js"></script>
 <script>
-    let url = 'http://40.114.107.92';
+    let url = 'http://127.0.0.1:5000/';
 
-    $('.update-link').click(e => {
-        let idString = e.target.id;
-        const size = idString.length;
-        let id = idString.substring(size - 1, size);
-        let row = $('.inventory-table-row').children();
-        let rowData = {
-            'id' : row[id*4 + 0].innerHTML,
-            'name' : row[id*4 + 1].innerHTML
-        }
-        document.getElementById('update_product_id').innerHTML = (rowData['id']);
-        document.getElementById('update_product_name').innerHTML = (rowData['name']);
-    });
-
-    $(document).ready(function () {
-        $('.modal').modal();
-    });
-
-    fetch(url, {
+    fetch(url + 'inventory', {
             mode: 'cors'
         })
         .then(response => {
             return response.json();
         })
         .then(jsonResponse => {
-            console.log(JSON.stringify(jsonResponse));
+            let inventoryData = jsonResponse['inventory'];
+            let count = 0;
+            for (var key in inventoryData) {
+                let tableRow = document.createElement('tr');
+                tableRow.classList.add('inventory-table-row');
+                tableRow.setAttribute('id', 'table-row' + count);
+
+                let tableData = document.createElement('td');
+                tableData.innerHTML = key;
+                tableRow.appendChild(tableData);
+
+                tableData = document.createElement('td');
+                tableData.innerHTML = inventoryData[key]['amount'];
+                tableRow.appendChild(tableData);
+
+                tableData = document.createElement('td');
+                tableData.innerHTML = inventoryData[key]['threshold'];
+                tableRow.appendChild(tableData);
+
+                tableData = document.createElement('td');
+                tableData.innerHTML = '<a href="#updateInventoryModal" id="update' + count +
+                    '" href="#" class="modal-trigger update-link">Update</a>';
+                tableRow.appendChild(tableData);
+
+                $('#inventory-table').append(tableRow);
+                count++;
+            }
         });
+
+    $(document).ready(function () {
+        $('.modal').modal();
+
+        $('#add-inventory-form').attr('action', url + 'add-inventory');
+        $('#update-inventory-form').attr('action', url + 'update-inventory');
+
+        $('.update-link').click(e => {
+            let idString = e.target.id;
+            const size = idString.length;
+            let id = idString.substring(size - 1, size);
+            let row = $('#table-row' + id).children();
+            let rowData = {
+                'name': row[0].innerHTML
+            }
+            document.getElementById('update_product_name').innerHTML = (rowData['name']);
+            $('#product_name_update').val(rowData['name']);
+        });
+    });
 </script>
 
 <script src="js/particle.js"></script>

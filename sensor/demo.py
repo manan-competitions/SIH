@@ -20,7 +20,7 @@ def submit():
     data = dict()
     t_id = entry.get()
     if not t_id:
-        t_id = 42
+        return
     data['current_in_p1'] = str(scale_curr_in_p1.get())
     data['current_in_p2'] = str(scale_curr_in_p2.get())
     data['current_in_p3'] = str(scale_curr_in_p3.get())
@@ -60,11 +60,16 @@ def submit():
     else:
         data['oil_pump'] = 'normal'
 
-    print(t_id)
-    pprint(data)
+    #print(t_id)
+    #pprint(data)
 
-    r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": data})
+    r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
 
+    h_data = dict()
+    for key,value in data.items():
+        h_data[key] = {"Thu Feb 28 11:04:26 2019": value}
+
+    #pprint(h_data)
 window = tk.Tk()
 window.title("Virtual Sensors - Demo")
 window.geometry(f'{res[0]}x{res[1]}')

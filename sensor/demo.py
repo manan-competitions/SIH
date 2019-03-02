@@ -47,7 +47,7 @@ def submit():
     if button_grelay1['relief'] == tk.SUNKEN:
         data['pressure_relay'] = '0'
     elif button_grelay2['relief'] == tk.SUNKEN:
-        data['pressre_relay'] = '1'
+        data['pressure_relay'] = '1'
     else:
         data['pressure_relay'] = '0'
 
@@ -68,15 +68,12 @@ def submit():
     else:
         data['oil_pump'] = '0'
 
-    #print(t_id)
-    pprint(data)
-    """
     try:
         r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
         print('Request sent')
     except:
         pass
-    """
+
     h_data = dict()
     for key,value in data.items():
         h_data[key] = {"Thu Feb 28 11:04:26 2019": value}

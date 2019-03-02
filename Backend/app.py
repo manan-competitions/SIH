@@ -121,6 +121,7 @@ def update_inventory_list(product_count_json = None):
 
     for product, count in product_count_json.items():
         data['inventory'][product]["amount"] = str(int(data['inventory'][product]["amount"])-int(product_count_json[product]["amount"]))
+
     json.dump(data['inventory'], open('db/inventory.json', 'w'), indent=4)
     return "ok", 200
 

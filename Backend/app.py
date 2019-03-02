@@ -18,6 +18,7 @@ data = {
 
 no_of_t=0
 
+
 # Views
 @app.route('/', methods=['GET'])
 def base_index():
@@ -35,6 +36,7 @@ def get_transformer_list():
 def get_inventory_list():
     return jsonify(inventory=data['inventory'], status_code=200)
 
+
 @app.route('/tickets', methods=['GET'])
 @cross_origin()
 def get_tickets_list():
@@ -46,7 +48,6 @@ def get_tickets_list():
 def get_tickets_per_transformer_list():
     try:
         data = request.get_json()
-        print(data)
         t_id = data['t_id']
     except:
         return "KeyError: t_id", 500
@@ -57,6 +58,7 @@ def get_tickets_per_transformer_list():
             tickets[ticket_id] = ticket_value
 
     return str(tickets), 200
+
 
 @app.route('/health-history', methods=['GET'])
 @cross_origin()
@@ -72,6 +74,7 @@ def get_unresolved_tickets():
     for ticket_id, ticket_data in data['tickets'].items():
         if not ticket_data['is_resolved']:
             unresolved_tickets[ticket_id] = ticket_data
+            data['tickets'][ticket_data]
 
     return jsonify(unresolved_tickets), 200
 
@@ -108,7 +111,7 @@ def update_transformers_list():
 
 @app.route('/update-inventory', methods=['POST'])
 @cross_origin()
-def update_inventory_list(products_count_json = None):
+def update_inventory_list(product_count_json = None):
     try:
         request_data = request.get_json()
         product_count_json = request_data['product_count_json']
@@ -116,7 +119,7 @@ def update_inventory_list(products_count_json = None):
         pass
 
     for product, count in product_count_json.items():
-        data['inventory'][product]["amount"] = str(int(data['inventory'][product]["amount"])-int(product_count_json[product][amount]))
+        data['inventory'][product]["amount"] = str(int(data['inventory'][product]["amount"])-int(product_count_json[product]["amount"]))
 
     return "ok", 200
 
@@ -170,6 +173,7 @@ def add_transformer():
 
     return "ok", 200
 
+
 @app.route('/add-inventory', methods=['POST'])
 @cross_origin()
 def add_inventory():
@@ -181,7 +185,6 @@ def add_inventory():
     }
 
     return "ok", 200
-
 
 
 if __name__ == '__main__':

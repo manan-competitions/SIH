@@ -4,6 +4,7 @@ import requests
 import time
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
+import copy
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -73,7 +74,7 @@ def get_unresolved_tickets():
 
     for ticket_id, ticket_data in data['tickets'].items():
         if not ticket_data['is_resolved']:
-            unresolved_tickets[ticket_id] = ticket_data
+            unresolved_tickets[ticket_id] = copy.deepcopy(ticket_data)
             data['tickets'][ticket_id]['is_new'] = False
     json.dump(data['tickets'], open('db/tickets.json'))
     return jsonify(unresolved_tickets), 200

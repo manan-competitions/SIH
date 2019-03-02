@@ -1,14 +1,11 @@
 {
     "1":{
        "Buchholz_relay": {"Thu Feb 28 11:04:26 2019": "normal"},
-       "current_in_p1": {"Thu Feb 28 11:04:26 2019": "100"},
-       "current_in_p2": {"Thu Feb 28 11:04:26 2019": "100"},
-       "current_in_p3": {"Thu Feb 28 11:04:26 2019": "100"},
-       "current_out_p1": {"Thu Feb 28 11:04:26 2019": "100"},
-       "current_out_p2": {"Thu Feb 28 11:04:26 2019": "100"},
-       "current_out_p3": {"Thu Feb 28 11:04:26 2019": "100"},
        "oil_level": {"Thu Feb 28 11:04:26 2019": "50"},
        "oil_pump": {"Thu Feb 28 11:04:26 2019": "normal"},
+       "power_out_p1": {"Thu Feb 28 11:04:26 2019": "100"},
+       "power_out_p2": {"Thu Feb 28 11:04:26 2019": "100"},
+       "power_out_p3": {"Thu Feb 28 11:04:26 2019": "100"},
        "state": {"Thu Feb 28 11:04:26 2019": "normal"},
        "temp_1": {"Thu Feb 28 11:04:26 2019": "35"},
        "temp_2": {"Thu Feb 28 11:04:26 2019": "35"},
@@ -16,9 +13,9 @@
        "voltage_in_p1": {"Thu Feb 28 11:04:26 2019": "15"},
        "voltage_in_p2": {"Thu Feb 28 11:04:26 2019": "15"},
        "voltage_in_p3": {"Thu Feb 28 11:04:26 2019": "15"},
-       "voltage_out_p1": {"Thu Feb 28 11:04:26 2019": "15"},
-       "voltage_out_p2": {"Thu Feb 28 11:04:26 2019": "15"},
-       "voltage_out_p3": {"Thu Feb 28 11:04:26 2019": "15"}
+       "voltage_out_p1": {"Thu Feb 28 11:04:26 2019": "230"},
+       "voltage_out_p2": {"Thu Feb 28 11:04:26 2019": "230"},
+       "voltage_out_p3": {"Thu Feb 28 11:04:26 2019": "230"}
 
     }
 }

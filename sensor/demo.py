@@ -21,12 +21,9 @@ def submit():
     t_id = entry.get()
     if not t_id:
         return
-    data['current_in_p1'] = str(scale_curr_in_p1.get())
-    data['current_in_p2'] = str(scale_curr_in_p2.get())
-    data['current_in_p3'] = str(scale_curr_in_p3.get())
-    data['current_out_p1'] = str(scale_curr_out_p1.get())
-    data['current_out_p2'] = str(scale_curr_out_p2.get())
-    data['current_out_p3'] = str(scale_curr_out_p3.get())
+    data['power_out_p1'] = str(scale_power_out_p1.get())
+    data['power_out_p2'] = str(scale_power_out_p2.get())
+    data['power_out_p3'] = str(scale_power_out_p3.get())
     data['voltage_in_p1'] = str(scale_volt_in_p1.get())
     data['voltage_in_p2'] = str(scale_volt_in_p2.get())
     data['voltage_in_p3'] = str(scale_volt_in_p3.get())
@@ -61,15 +58,16 @@ def submit():
         data['oil_pump'] = 'normal'
 
     #print(t_id)
-    #pprint(data)
+    pprint(data)
 
-    r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
+    #r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
 
     h_data = dict()
     for key,value in data.items():
         h_data[key] = {"Thu Feb 28 11:04:26 2019": value}
 
-    #pprint(h_data)
+    pprint(h_data)
+
 window = tk.Tk()
 window.title("Virtual Sensors - Demo")
 window.geometry(f'{res[0]}x{res[1]}')
@@ -85,88 +83,69 @@ img = ImageTk.PhotoImage(im)
 panel = tk.Label(window, image = img, borderwidth=2, relief="solid")
 panel.place(x=500,y=50)
 
-# current
-curr_main = tk.Label(window, text='Current (mA)',background='white', font=('Helvetica',16,'bold'))
-curr_main.place(x=pad_x,y=400)
-curr_in = tk.Label(window, text='Input',background='white', font=('Helvetica',16))
-curr_in.place(x=250,y=360)
-curr_out = tk.Label(window, text='Output',background='white', font=('Helvetica',16))
-curr_out.place(x=250,y=430)
-curr_p1 = tk.Label(window, text='Phase 1',background='white', font=('Helvetica',16))
-curr_p1.place(x=400,y=300)
-curr_p2 = tk.Label(window, text='Phase 2',background='white', font=('Helvetica',16))
-curr_p2.place(x=700,y=300)
-curr_p3 = tk.Label(window, text='Phase 3',background='white', font=('Helvetica',16))
-curr_p3.place(x=1000,y=300)
+# power
+power_main = tk.Label(window, text='power Output (kVA)',background='white', font=('Helvetica',16,'bold'))
+power_main.place(x=pad_x,y=400)
+power_p1 = tk.Label(window, text='Phase 1',background='white', font=('Helvetica',16))
+power_p1.place(x=400,y=350)
+power_p2 = tk.Label(window, text='Phase 2',background='white', font=('Helvetica',16))
+power_p2.place(x=700,y=350)
+power_p3 = tk.Label(window, text='Phase 3',background='white', font=('Helvetica',16))
+power_p3.place(x=1000,y=350)
 
-scale_curr_in_p1 = tk.Scale(window, from_=0, to=200, orient=tk.HORIZONTAL, background='gray',
+scale_power_out_p1 = tk.Scale(window, from_=25, to=2500, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
-scale_curr_in_p1.place(x=350,y=350)
-scale_curr_in_p1.set(100)
+scale_power_out_p1.place(x=350,y=400)
+scale_power_out_p1.set(100)
 
-scale_curr_in_p2 = tk.Scale(window, from_=0, to=200, orient=tk.HORIZONTAL, background='gray',
+scale_power_out_p2 = tk.Scale(window, from_=25, to=2500, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
-scale_curr_in_p2.place(x=650,y=350)
-scale_curr_in_p2.set(100)
+scale_power_out_p2.place(x=650,y=400)
+scale_power_out_p2.set(100)
 
-scale_curr_in_p3 = tk.Scale(window, from_=0, to=200, orient=tk.HORIZONTAL, background='gray',
+scale_power_out_p3 = tk.Scale(window, from_=25, to=2500, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
-scale_curr_in_p3.place(x=950,y=350)
-scale_curr_in_p3.set(100)
-
-scale_curr_out_p1 = tk.Scale(window, from_=0, to=200, orient=tk.HORIZONTAL, background='gray',
-                    width=20, length=200)
-scale_curr_out_p1.place(x=350,y=420)
-scale_curr_out_p1.set(100)
-
-scale_curr_out_p2 = tk.Scale(window, from_=0, to=200, orient=tk.HORIZONTAL, background='gray',
-                    width=20, length=200)
-scale_curr_out_p2.place(x=650,y=420)
-scale_curr_out_p2.set(100)
-
-scale_curr_out_p3 = tk.Scale(window, from_=0, to=200, orient=tk.HORIZONTAL, background='gray',
-                    width=20, length=200)
-scale_curr_out_p3.place(x=950,y=420)
-scale_curr_out_p3.set(100)
+scale_power_out_p3.place(x=950,y=400)
+scale_power_out_p3.set(100)
 
 # voltage
 diff = 150
-volt_main = tk.Label(window, text='Primary Voltage (kV)',background='white', font=('Helvetica',16,'bold'))
+volt_main = tk.Label(window, text='Voltage',background='white', font=('Helvetica',16,'bold'))
 volt_main.place(x=pad_x,y=400+diff)
-volt_in = tk.Label(window, text='Input',background='white', font=('Helvetica',16))
-volt_in.place(x=250,y=360+diff)
-volt_out = tk.Label(window, text='Output',background='white', font=('Helvetica',16))
-volt_out.place(x=250,y=430+diff)
+volt_in = tk.Label(window, text='Primary (kV)',background='white', font=('Helvetica',16))
+volt_in.place(x=200,y=360+diff)
+volt_out = tk.Label(window, text='Secondary (V)',background='white', font=('Helvetica',16))
+volt_out.place(x=200,y=430+diff)
 
-scale_volt_in_p1 = tk.Scale(window, from_=6, to=132, orient=tk.HORIZONTAL, background='gray',
+scale_volt_in_p1 = tk.Scale(window, from_=4, to=35, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_in_p1.place(x=350,y=350+diff)
 scale_volt_in_p1.set(15)
 
-scale_volt_in_p2 = tk.Scale(window, from_=6, to=132, orient=tk.HORIZONTAL, background='gray',
+scale_volt_in_p2 = tk.Scale(window, from_=4, to=35, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_in_p2.place(x=650,y=350+diff)
 scale_volt_in_p2.set(15)
 
-scale_volt_in_p3 = tk.Scale(window, from_=6, to=132, orient=tk.HORIZONTAL, background='gray',
+scale_volt_in_p3 = tk.Scale(window, from_=4, to=35, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_in_p3.place(x=950,y=350+diff)
 scale_volt_in_p3.set(15)
 
-scale_volt_out_p1 = tk.Scale(window, from_=6, to=132, orient=tk.HORIZONTAL, background='gray',
+scale_volt_out_p1 = tk.Scale(window, from_=100, to=240, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_out_p1.place(x=350,y=420+diff)
-scale_volt_out_p1.set(15)
+scale_volt_out_p1.set(230)
 
-scale_volt_out_p2 = tk.Scale(window, from_=6, to=132, orient=tk.HORIZONTAL, background='gray',
+scale_volt_out_p2 = tk.Scale(window, from_=100, to=240, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_out_p2.place(x=650,y=420+diff)
-scale_volt_out_p2.set(15)
+scale_volt_out_p2.set(230)
 
-scale_volt_out_p3 = tk.Scale(window, from_=6, to=132, orient=tk.HORIZONTAL, background='gray',
+scale_volt_out_p3 = tk.Scale(window, from_=100, to=240, orient=tk.HORIZONTAL, background='gray',
                     width=20, length=200)
 scale_volt_out_p3.place(x=950,y=420+diff)
-scale_volt_out_p3.set(15)
+scale_volt_out_p3.set(230)
 
 # Oil pump
 oil_pump = tk.Label(window, text='Oil Pump',background='white', font=('Helvetica',16,'bold'))

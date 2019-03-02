@@ -156,6 +156,7 @@
 <script src="js/materialize.min.js"></script>
 <script>
     let url = 'http://127.0.0.1:5000/';
+    url = 'http://172.16.15.225:5000/';
 
     var addInventoryToTable = function () {
         fetch(url + 'inventory', {
@@ -167,6 +168,8 @@
             .then(jsonResponse => {
                 let inventoryData = jsonResponse['inventory'];
                 let count = 0;
+                $('.inventory-table-row').remove();
+
                 for (var key in inventoryData) {
                     let tableRow = document.createElement('tr');
                     tableRow.classList.add('inventory-table-row');
@@ -191,6 +194,18 @@
 
                     $('#inventory-table').append(tableRow);
                     count++;
+
+                    $('.update-link').click(e => {
+                        let idString = e.target.id;
+                        const size = idString.length;
+                        let id = idString.substring(size - 1, size);
+                        let row = $('#table-row' + id).children();
+                        let rowData = {
+                            'name': row[0].innerHTML
+                        }
+                        document.getElementById('update_product_name').innerHTML = (rowData['name']);
+                        $('#product_name_update').val(rowData['name']);
+                    });
                 }
             });
     }
@@ -211,7 +226,7 @@
                     'Content-Type': 'application/json'
                 }
             })
-            .then(res => res.json())
+            .then(res => res)
             .then(response => {
                 alert('Successfully Added Transformer');
                 addInventoryToTable();
@@ -231,14 +246,14 @@
             postData[formData[i]["name"]] = formData[i].value;
         }
 
-        fetch(url + 'update-inventory', {
+        fetch(url + 'change-inventory', {
                 method: 'POST',
                 body: JSON.stringify(postData),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(res => res.json())
+            .then(res => res)
             .then(response => {
                 alert('Successfully Updated Transformer');
                 addInventoryToTable();
@@ -256,18 +271,6 @@
 
         // $('#add-inventory-form').attr('action', url + 'add-inventory');
         // $('#update-inventory-form').attr('action', url + 'update-inventory');
-
-        $('.update-link').click(e => {
-            let idString = e.target.id;
-            const size = idString.length;
-            let id = idString.substring(size - 1, size);
-            let row = $('#table-row' + id).children();
-            let rowData = {
-                'name': row[0].innerHTML
-            }
-            document.getElementById('update_product_name').innerHTML = (rowData['name']);
-            $('#product_name_update').val(rowData['name']);
-        });
     });
 </script>
 

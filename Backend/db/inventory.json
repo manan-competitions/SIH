@@ -1,22 +1,2 @@
 {
-    "Bushing": {
-        "amount": "12",
-        "threshold": "2"
-    },
-    "Desiccator": {
-        "amount": "19",
-        "threshold": "3"
-    },
-    "Oil": {
-        "amount": "18",
-        "threshold": "3"
-    },
-    "Explosion-Vent-Diaphragm": {
-        "amount": "20",
-        "threshold": "7"
-    },
-    "Cooler Fan": {
-        "amount": "10",
-        "threshold": "8"
-    }
 }

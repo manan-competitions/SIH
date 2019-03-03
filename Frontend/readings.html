@@ -50,7 +50,8 @@
 
         <div class="container readings-wrapper">
 
-            <a href="#addTransformerModal" id="add-transformer-btn" class="btn waves-effect waves-light modal-trigger">Add Transfomer
+            <a href="#addTransformerModal" id="add-transformer-btn" class="btn waves-effect waves-light modal-trigger">Add
+                Transfomer
                 <i class="material-icons right">add</i>
             </a>
 
@@ -85,8 +86,20 @@
                     <form class="col s12" id="add-transformer-form" method="POST" action="">
                         <div class="row">
                             <div class="input-field col s12 m4">
-                                <input id="transformer_location" type="text" name="location" class="validate">
+                                <input id="transformer_location" type="text" name="location" class="validate" required>
                                 <label for="transformer_location">Transfomer Location</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="transformer_kvrd" min="0" type="number" name="location" class="validate">
+                                <label for="transformer_kvrd">KV Rating</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="transformer_pvd" min="0" type="number" name="location" class="validate">
+                                <label for="transformer_pvd">Primary Votage</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="transformer_svd" min="0" type="number" name="location" class="validate">
+                                <label for="transformer_svd">Secondary Voltage</label>
                             </div>
                             <div class="input-field col s12">
                                 <button type="button" id="add-transformer-submit" class="btn waves-effect waves-light">Add
@@ -206,6 +219,58 @@
                         <h6> Vibration: </h6>
                         <h6 id="transformer-vib"></h6>
                     </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Acidity: </h6>
+                        <h6 id="transformer-aci"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Dissolved Metals: </h6>
+                        <h6 id="transformer-dim"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Furan </h6>
+                        <h6 id="transformer-fur"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Interfacial Tension: </h6>
+                        <h6 id="transformer-ift"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Moistuure: </h6>
+                        <h6 id="transformer-moi"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> PCB: </h6>
+                        <h6 id="transformer-pcb"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Power </h6>
+                        <h6 id="transformer-pow"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> DGA Acetylene: </h6>
+                        <h6 id="transformer-dgaacet"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> DGA Carbon Dioxide: </h6>
+                        <h6 id="transformer-dgaco2"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> DGA Carbon Monoxide: </h6>
+                        <h6 id="transformer-dgaco"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> Ethylene: </h6>
+                        <h6 id="transformer-dgaeth"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> DGA Hydrogen: </h6>
+                        <h6 id="transformer-dgahyd"></h6>
+                    </div>
+                    <div class="transformerDetails col s12 m4">
+                        <h6> DGA Methane: </h6>
+                        <h6 id="transformer-dgameth"></h6>
+                    </div>
                 </div>
 
 
@@ -229,8 +294,12 @@
     url = 'http://172.16.15.225:5000/';
     let transformer = [];
 
-    window.setInterval( () => {
+    let globalid = 0;
+
+    window.setInterval(() => {
         addTransformerDataToTable();
+        if (globalid != 0)
+            $('#details' + globalid).trigger('click');
     }, 4000);
 
     var data = [];
@@ -350,7 +419,26 @@
                         $('#transformer-eff').html(transformer[id][id]["health"]["efficiency"]);
                         $('#transformer-pr').html(transformer[id][id]["health"]["pressure_relay"]);
                         $('#transformer-vib').html(transformer[id][id]["health"]["vibration"]);
-                        
+
+                        $('#transformer-aci').html(transformer[id][id]["health"]["acidity"]);
+                        $('#transformer-dim').html(transformer[id][id]["health"]["dissolved_metals"]);
+                        $('#transformer-fur').html(transformer[id][id]["health"]["furan"]);
+                        $('#transformer-ift').html(transformer[id][id]["health"]["interfacial_tension"]);
+                        $('#transformer-moi').html(transformer[id][id]["health"]["moisture"]);
+                        $('#transformer-pcb').html(transformer[id][id]["health"]["pcb"]);
+                        $('#transformer-pow').html(transformer[id][id]["health"]["power"]);
+                        $('#transformer-dgaacet').html(transformer[id][id]["health"]["dga_acetylene"]);
+                        $('#transformer-dgaco2').html(transformer[id][id]["health"][
+                            "dga_carbon_dioxide"
+                        ]);
+                        $('#transformer-dgaco').html(transformer[id][id]["health"][
+                            "dga_carbon_monoxide"
+                        ]);
+                        $('#transformer-dgaeth').html(transformer[id][id]["health"]["dga_ethylene"]);
+                        $('#transformer-dgahyd').html(transformer[id][id]["health"]["dga_hydrogen"]);
+                        $('#transformer-dgameth').html(transformer[id][id]["health"]["dga_methane"]);
+
+                        globalid = id;
                         buildChartData(['efficiency'], id);
                     });
                 }
@@ -367,25 +455,25 @@
             })
             .then(jsonResponse => {
                 let t_history = jsonResponse;
-                
+
                 let datapoints = [];
 
                 let tid = idt;
 
-                for( var id in params) {
+                for (var id in params) {
                     let x = [];
                     let y = [];
                     let param = params[id];
                     let healthData = t_history[tid]["health"];
-                    for( var ms in healthData[param]) {
-                        let date = (new Date()) - ms*1000;
-                        x.push(date/1000);   
+                    for (var ms in healthData[param]) {
+                        let date = (new Date()) - ms * 1000;
+                        x.push(date / 80000);
                         y.push(healthData[param][ms]);
                     }
                     datapoints.push(x);
                     datapoints.push(y);
                 }
-                
+
                 generateChart(1, 'time', params[0], datapoints, params[0]) + ' vs Time graph';
                 Plotly.newPlot('chart-container', data, layout, {
                     responsive: true
@@ -425,7 +513,7 @@
 
         // $('#add-transformer-form').attr('action', url + 'add-transformer');
 
-        $('#add-transformer-btn').click( e => {
+        $('#add-transformer-btn').click(e => {
             $('#add-transformer-form')[0].reset();
         })
 

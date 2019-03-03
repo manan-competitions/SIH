@@ -1,50 +1,89 @@
 {
     "1": {
-        "transformer_id": "1",
-        "date": 1551564300.090039,
+        "transformer_id": "2",
+        "date": "1551584913.661569",
         "is_resolved": true,
         "is_new": false,
-        "details": "oil_pump sensor has generated a critical alert",
-        "feedback": "Fghvh",
+        "details": "oil_temp sensor has generated a critical alert",
+        "feedback": "Transformer is getting rusty",
         "products_used": {
-            "T-sensors": {
-                "amount": "1"
+            "Bushing": {
+                "amount": "0"
             },
-            "Wires": {
+            "Desiccator": {
+                "amount": "0"
+            },
+            "Oil": {
+                "amount": "2"
+            },
+            "Explosion-Vent-Diaphragm": {
+                "amount": "0"
+            },
+            "Cooler-Fan": {
                 "amount": "1"
             }
         }
     },
     "2": {
-        "transformer_id": "1",
-        "date": 1551564300.090039,
-        "is_resolved": false,
+        "transformer_id": "3",
+        "date": "1551585519.0008",
+        "is_resolved": true,
         "is_new": false,
-        "details": "oil_pump sensor has generated a critical alert again",
-        "feedback": "Fghvh",
+        "details": "breather_moisture sensor has generated a critical alert",
+        "feedback": "Replaced breather silica gel",
         "products_used": {
-            "T-sensors": {
-                "amount": "1"
-            },
-            "Wires": {
+            "Desiccator": {
                 "amount": "1"
             }
         }
     },
     "3": {
-        "transformer_id": "1",
-        "date": 1551564300.090039,
-        "is_resolved": false,
+        "transformer_id": "4",
+        "date": "1551585709.4965131",
+        "is_resolved": true,
         "is_new": false,
-        "details": "oil_pump sensor has generated a critical alert again",
-        "feedback": "Fghvh",
+        "details": "efficiency sensor has generated a critical alert",
+        "feedback": "Bushing cracked",
         "products_used": {
-            "T-sensors": {
+            "Bushing": {
                 "amount": "1"
             },
-            "Wires": {
-                "amount": "1"
+            "Desiccator": {
+                "amount": "0"
+            },
+            "Oil": {
+                "amount": "0"
+            },
+            "Explosion-Vent-Diaphragm": {
+                "amount": "0"
+            },
+            "Cooler-Fan": {
+                "amount": "0"
             }
         }
+    },
+    "4": {
+        "transformer_id": "2",
+        "date": "1551586050.313285",
+        "is_resolved": false,
+        "is_new": false,
+        "details": "oil_temp sensor has generated a critical alert",
+        "feedback": null
+    },
+    "5": {
+        "transformer_id": "1",
+        "date": "1551586648.435186",
+        "is_resolved": false,
+        "is_new": false,
+        "details": "winding_temp_3 sensor has generated a critical alert",
+        "feedback": null
+    },
+    "6": {
+        "transformer_id": "1",
+        "date": "1551588102.3291252",
+        "is_resolved": false,
+        "is_new": false,
+        "details": "oil_temp sensor has generated a critical alert",
+        "feedback": null
     }
 }

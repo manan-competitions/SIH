@@ -223,10 +223,10 @@ def add_ticket(t_id, t_data):
                 "feedback": None
             }
             data['transformers'][t_id]['state'] = 'Triggered'
-            
+
 
     json.dump(data['tickets'], open('db/tickets.json', 'w'), indent=4)
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="172.16.15.225")
+    app.run(debug=True, host="172.16.15.91",port=5000)

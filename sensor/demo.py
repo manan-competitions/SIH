@@ -9,7 +9,7 @@ size_img = (300,200)
 res = (1440,900)
 pad_x = 10
 pad_y = 5
-ip = '172.16.15.225:5000'
+ip = '172.16.15.91:5000'
 server_ip = f'http://{ip}/update-transformers'
 
 def submit():

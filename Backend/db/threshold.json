@@ -8,7 +8,7 @@
      "power_out_p1": "1999",
      "power_out_p2": "1999",
      "power_out_p3": "1999",
-     "pressre_relay": "1",
+     "pressure_relay": "1",
      "vibration": "1",
      "voltage_in_p1": "30",
      "voltage_in_p2": "30",

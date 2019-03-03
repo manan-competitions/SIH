@@ -80,10 +80,10 @@
     </div>
 
 </body>
-<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATVWv61py3jaOGFzqy2dL_SxdMiMB1taM
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATVWv61py3jaOGFzqy2dL_SxdMiMB1taM
   &callback=initMap">
-</script> -->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=NULL&callback=initMap"></script>
+</script>
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=NULL&callback=initMap"></script> -->
 <script>
     let url = 'http://127.0.0.1:5000/';
     url = 'http://172.16.15.225:5000/';
@@ -109,7 +109,7 @@
             var infowindow = new google.maps.InfoWindow({
                 content: markerBuilder(transformerData, key)
             });
-
+            
             let coords = await geocodeAddress(transformerData[key]["location"])
                 .then(response => {
                     return response;
@@ -127,17 +127,17 @@
         }
     }
 
-    // function geocodeAddress(place) {
-    //     return fetch('http://open.mapquestapi.com/geocoding/v1/address?key=nBLgikKLcex7cwzbLQo0K63Gr3Gh0j1i&location=' +
-    //             place)
-    //         .then(response => {
-    //             return response.json();
-    //         })
-    //         .then(jsonResponse => {
-    //             let coords = jsonResponse['results'][0]['locations'][0]['latLng'];
-    //             return coords;
-    //         })
-    // }
+    function geocodeAddress(place) {
+        return fetch('http://open.mapquestapi.com/geocoding/v1/address?key=nBLgikKLcex7cwzbLQo0K63Gr3Gh0j1i&location=' +
+                place)
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                let coords = jsonResponse['results'][0]['locations'][0]['latLng'];
+                return coords;
+            })
+    }
 
     function getTransformerData() {
         return fetch(url + 'transformers')
@@ -153,7 +153,10 @@
 
         const t_key = key;
         const t_location = transformerData[key]["location"];
-        const t_status = transformerData[key]["status"];
+        let t_status = transformerData[key]["state"];
+        if( t_status == null) {
+            t_status = '-';
+        }
 
         var contentString =
             '<div class="row"> \

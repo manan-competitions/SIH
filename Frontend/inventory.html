@@ -48,7 +48,7 @@
         <div id="particles-js"></div>
 
         <div class="container inventory-wrapper">
-            <a href="#addInventoryModal" class="btn waves-effect waves-light modal-trigger">Add Inventory
+            <a href="#addInventoryModal" id="add-inventory-btn" class="btn waves-effect waves-light modal-trigger">Add Inventory
                 <i class="material-icons right">add</i>
             </a>
             <!-- <span class="left"> <h3> Inventory</h3></span> -->
@@ -158,6 +158,10 @@
     let url = 'http://127.0.0.1:5000/';
     url = 'http://172.16.15.225:5000/';
 
+    window.setInterval( () => {
+        addInventoryToTable();
+    }, 4000)
+
     var addInventoryToTable = function () {
         fetch(url + 'inventory', {
                 mode: 'cors'
@@ -196,6 +200,7 @@
                     count++;
 
                     $('.update-link').click(e => {
+                        $('#update-inventory-form')[0].reset();
                         let idString = e.target.id;
                         const size = idString.length;
                         let id = idString.substring(size - 1, size);
@@ -268,6 +273,9 @@
 
     $(document).ready(function () {
         $('.modal').modal();
+        $('#add-inventory-btn').click( e => {
+            $('#add-inventory-form')[0].reset();
+        })
 
         // $('#add-inventory-form').attr('action', url + 'add-inventory');
         // $('#update-inventory-form').attr('action', url + 'update-inventory');

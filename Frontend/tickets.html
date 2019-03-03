@@ -88,7 +88,7 @@
                     <h6 id="ticket-feedback"></h6>
                 </span>
                 <span class="ticketDetails">
-                    <h6> Products Used: </h6>
+                    <h6 style="display:block;"> Products Used: </h6>
                     <h6 id="ticket-product-used"></h6>
                 </span>
             </div>
@@ -109,71 +109,83 @@
 
     let tickets = [];
 
-    fetch(url + 'tickets', {
-            mode: 'cors'
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(jsonResponse => {
-            let ticketsData = jsonResponse;
-            for (var key in ticketsData) {
-                let tableRow = document.createElement('tr');
+    window.setInterval(() => {
+        addTicketDetails();
+    },4000);
 
-                let tableData = document.createElement('td');
-                tableData.innerHTML = key;
-                tableRow.appendChild(tableData);
+    function addTicketDetails() {
+        fetch(url + 'tickets', {
+                mode: 'cors'
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                let ticketsData = jsonResponse;
+                $('.ticket-row').remove();
+                for (var key in ticketsData) {
+                    let tableRow = document.createElement('tr');
+                    tableRow.classList.add('ticket-row');
 
-                tableData = document.createElement('td');
-                const ms = ticketsData[key]['date'] * 1000;
-                let date = new Date(ms);
-                date = date.toString().split(' ');
-                tableData.innerHTML = date[1] + ' ' + date[2] + ' ' + date[3];
-                tableRow.appendChild(tableData);
+                    let tableData = document.createElement('td');
+                    tableData.innerHTML = key;
+                    tableRow.appendChild(tableData);
 
-                tableData = document.createElement('td');
-                if (ticketsData[key]["is_resolved"])
-                    tableData.innerHTML = "Resolved";
-                else
-                    tableData.innerHTML = "Not Resolved";
-                tableRow.appendChild(tableData);
+                    tableData = document.createElement('td');
+                    const ms = ticketsData[key]['date'] * 1000;
+                    let date = new Date(ms);
+                    date = date.toString().split(' ');
+                    tableData.innerHTML = date[1] + ' ' + date[2] + ' ' + date[3];
+                    tableRow.appendChild(tableData);
 
-                tableData = document.createElement('td');
-                tableData.classList.add('detailsLink');
-                tableData.innerHTML = '<a href="#ticketsModal" id="detailsLink' + key +
-                    '" class="waves-effect waves-light btn modal-trigger">Details</a>';
-                tableRow.appendChild(tableData);
-
-                $('#tickets-table').append(tableRow);
-
-                tickets[key] = ticketsData[key];
-                tickets[key]["key"] = key;
-
-                $('.detailsLink').click(e => {
-                    let idString = e.target.id;
-                    let id = idString.substring(idString.length - 1, idString.length);
-                    $('#ticket-id').html(tickets[id]["key"]);
-                    $('#ticket-details').html(tickets[id]["details"]);
-                    $('#ticket-feedback').html(tickets[id]["feedback"]);
-                    if( tickets[id]["feedback"] == null || tickets[id]["feedback"] == '' ) {
-                        $('#ticket-feedback').html('-');
-                    }
-                    const ms = tickets[id]['date'] * 1000;
-                    let date = (new Date(ms)).toString().split(' ');
-                    $('#ticket-date').html(date[1] + ' ' + date[2] + ' ' + date[3]);
-                    if (tickets[id]["is_resolved"])
-                        $('#ticket-status').html("Resolved");
+                    tableData = document.createElement('td');
+                    if (ticketsData[key]["is_resolved"])
+                        tableData.innerHTML = "Resolved";
                     else
-                        $('#ticket-status').html("Not Resolved");
+                        tableData.innerHTML = "Not Resolved";
+                    tableRow.appendChild(tableData);
 
-                    let productsUsed = '';
-                    for (var prod in tickets[id]["products_used"]) {
-                        productsUsed += prod + " : " + tickets[id]["products_used"][prod]["amount"] + "<br>";
-                    }
-                    $('#ticket-product-used').html(productsUsed);
-                })
-            }
-        });
+                    tableData = document.createElement('td');
+                    tableData.classList.add('detailsLink');
+                    tableData.innerHTML = '<a href="#ticketsModal" id="detailsLink' + key +
+                        '" class="waves-effect waves-light btn modal-trigger">Details</a>';
+                    tableRow.appendChild(tableData);
+
+                    $('#tickets-table').append(tableRow);
+
+                    tickets[key] = ticketsData[key];
+                    tickets[key]["key"] = key;
+
+                    $('.detailsLink').click(e => {
+                        let idString = e.target.id;
+                        let id = idString.substring(idString.length - 1, idString.length);
+                        $('#ticket-id').html(tickets[id]["key"]);
+                        $('#ticket-details').html(tickets[id]["details"]);
+                        $('#ticket-feedback').html(tickets[id]["feedback"]);
+                        if (tickets[id]["feedback"] == null || tickets[id]["feedback"] == '') {
+                            $('#ticket-feedback').html('-');
+                        }
+                        const ms = tickets[id]['date'] * 1000;
+                        let date = (new Date(ms)).toString().split(' ');
+                        $('#ticket-date').html(date[1] + ' ' + date[2] + ' ' + date[3]);
+                        if (tickets[id]["is_resolved"])
+                            $('#ticket-status').html("Resolved");
+                        else
+                            $('#ticket-status').html("Not Resolved");
+
+                        let productsUsed = '';
+                        for (var prod in tickets[id]["products_used"]) {
+                            productsUsed += '<li>' + prod + " : " + tickets[id]["products_used"][prod][
+                                "amount"
+                            ] + "</li><br>";
+                        }
+                        $('#ticket-product-used').html(productsUsed);
+                    })
+                }
+            });
+    }
+
+    addTicketDetails();
 
     $(document).ready(function () {
         $('.modal').modal();

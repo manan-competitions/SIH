@@ -50,7 +50,7 @@
 
         <div class="container readings-wrapper">
 
-            <a href="#addTransformerModal" class="btn waves-effect waves-light modal-trigger">Add Transfomer
+            <a href="#addTransformerModal" id="add-transformer-btn" class="btn waves-effect waves-light modal-trigger">Add Transfomer
                 <i class="material-icons right">add</i>
             </a>
 
@@ -229,32 +229,30 @@
     url = 'http://172.16.15.225:5000/';
     let transformer = [];
 
+    window.setInterval( () => {
+        addTransformerDataToTable();
+    }, 4000);
+
     var data = [];
     var trace = [];
     var layout;
 
-    function generateChart( no, xtitle, ytitle, datapoints, title) {
+    function generateChart(no, xtitle, ytitle, datapoints, title) {
         trace = [];
         data = [];
-        
-        trace.push( {
-            x: [2, 3, 4, 5],
-            y: [16, 5, 11, 9],
+
+        trace.push({
+            x: datapoints[0],
+            y: datapoints[1],
             mode: 'lines+markers'
         });
 
-        trace.push({
-            x: [1, 2, 3, 4],
-            y: [12, 9, 15, 12],
-            mode: 'lines+markers'
-        });
-        
-        for( var i = 0; i<no; i++) {
+        for (var i = 0; i < no; i++) {
             data.push(trace[i]);
         }
 
         layout = {
-            title: 'Transformer Health Statistics',
+            title: title,
             xaxis: {
                 title: xtitle
             },
@@ -317,7 +315,7 @@
 
                         let idString = e.target.id;
                         let id = idString.substring(idString.length - 1, idString.length);
-                        $('#transformer-id').html(transformer[id]["key"]);
+                        $('#transformer-id').html(id);
                         $('#transformer-location').html(transformer[id][id]["location"]);
                         let state = transformer[id][id]["state"];
                         if (state == null)
@@ -353,19 +351,48 @@
                         $('#transformer-pr').html(transformer[id][id]["health"]["pressure_relay"]);
                         $('#transformer-vib').html(transformer[id][id]["health"]["vibration"]);
                         
-                        // fetch( url + 'health-history')
-                        //     .then()
-
-                        generateChart(2, 'time' , 'temperature' , 0 , 0);
-                        Plotly.newPlot('chart-container', data, layout, {
-                            responsive: true
-                        });
+                        buildChartData(['efficiency'], id);
                     });
                 }
             });
     }
 
     addTransformerDataToTable();
+
+    function buildChartData(params, idt) {
+
+        fetch(url + 'health-history')
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                let t_history = jsonResponse;
+                
+                let datapoints = [];
+
+                let tid = idt;
+
+                for( var id in params) {
+                    let x = [];
+                    let y = [];
+                    let param = params[id];
+                    let healthData = t_history[tid]["health"];
+                    for( var ms in healthData[param]) {
+                        let date = (new Date()) - ms*1000;
+                        x.push(date/1000);   
+                        y.push(healthData[param][ms]);
+                    }
+                    datapoints.push(x);
+                    datapoints.push(y);
+                }
+                
+                generateChart(1, 'time', params[0], datapoints, params[0]) + ' vs Time graph';
+                Plotly.newPlot('chart-container', data, layout, {
+                    responsive: true
+                });
+
+            });
+    }
 
     $('#add-transformer-submit').click(e => {
         var formData = $("#add-transformer-form").serializeArray()[0];
@@ -397,6 +424,10 @@
         $('.modal').modal();
 
         // $('#add-transformer-form').attr('action', url + 'add-transformer');
+
+        $('#add-transformer-btn').click( e => {
+            $('#add-transformer-form')[0].reset();
+        })
 
         $('#close-transformer-details').click(e => {
             $('#transformersDetailsTable').css('opacity', '0');

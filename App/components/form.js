@@ -7,7 +7,8 @@ import {
 	StyleSheet, 
 	Picker, 
 	TextInput, 
-	CheckBox
+	CheckBox,
+  ScrollView
 } from 'react-native';
 
 import { BASE_URL } from '../config.js';
@@ -63,20 +64,18 @@ export default class FormScreen extends React.Component {
   }
 
   render(){
+    // bushing, desiccator, oil, Explosion-Vent-Diaphragm
+    var field = (name) => {
+      return {
+        "label": "Amount of " + name + " used",
+        "placeholder": "0",
+        "path": ["ticket_data", "products_used", name, "amount"],
+      }
+    }
 
     var textFieldData = [  
-    {
-      "label": "Amount of T-sensors used",
-      "placeholder": "0",
-      
-      "path": ["ticket_data", "products_used", "T-sensors", "amount"],
-    }, 
-    {
-      "label": "Amount of Wires used",
-      "placeholder": "0",
-      
-      "path": ["ticket_data", "products_used", "Wires", "amount"],
-    }, 
+    field("Bushing"), field("Desiccator"), field("Oil"), 
+    field("Explosion-Vent-Diaphragm"), field("Cooler-Fan"),
     {
       "label": "Feedback",
       "placeholder": "",
@@ -127,7 +126,7 @@ export default class FormScreen extends React.Component {
     // })
 
     // {selectFields}
-    return (<View style={{justifyContent: 'space-between', flex: 1, padding: 20}}>
+    return (<ScrollView contentContainerStyle={{justifyContent: 'space-between', flex: 1, padding: 20}}>
     		<View style={styles.form}>
               {textFields}
               
@@ -142,7 +141,7 @@ export default class FormScreen extends React.Component {
            underlayColor="white" >
          		<View style={styles.submitButton}><Text style={styles.submitButton}>Submit</Text></View>
          	</TouchableHighlight>
-            </View>)
+            </ScrollView>)
   }
 }
 

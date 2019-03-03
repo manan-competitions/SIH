@@ -54,10 +54,10 @@ class HomeScreen extends React.Component {
     // }]
   }
   static navigationOptions = {
-    title: 'Transformer Healthcare',
+    title: 'E Technician',
   };
 
-  async pollDetails(t=10000){
+  async pollDetails(t=800){
     var last = await this.getDetails();
     setTimeout(this.pollDetails.bind(this), t);
   }
@@ -108,7 +108,7 @@ class HomeScreen extends React.Component {
 
   render() {    
     
-    var items = this.state.details.length > 0 ? this.state.details.slice().map((ele, i) =>{
+    var items = this.state.details.length > 0 ? this.state.details.slice().reverse().map((ele, i) =>{
       var s = {...styles.card, ...styles.row, ...styles.cardOuter};
       var p = this.state.newTickets[ele.tokenId]? styles.newTicket: {};
       return (

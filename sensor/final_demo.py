@@ -10,8 +10,8 @@ from tkinter.scrolledtext import ScrolledText
 #from page_3 import root_p3
 
 path_to_img_1 = 'transformer.jpg'
-path_to_img_2 = 'transformer.jpg'
-path_to_img_3 = 'transformer.jpg'
+path_to_img_2 = 'oil.jpg'
+path_to_img_3 = 'dga.jpg'
 size_img = (300,200)
 defalt_id =  42
 res = (1440,900)
@@ -92,7 +92,7 @@ def submit_1():
     h_data = dict()
     for key,value in data.items():
         h_data[key] = {"Thu Feb 28 11:04:26 2019": value}
-
+    pprint(data)
     #pprint(h_data)
 
 def submit_2():
@@ -122,13 +122,13 @@ def submit_2():
         data['dissolved_metals'] += 1
     if mb7['relief'] == tk.SUNKEN:
         data['dissolved_metals'] += 1
-
+    data['dissolved_metals']  = str(data['dissolved_metals'])    
     try:
         r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
         print('Request sent')
     except:
         pass
-    #pprint(data)
+    pprint(data)
 
 def submit_3():
     data = dict()
@@ -148,7 +148,7 @@ def submit_3():
     except:
         pass
 
-    #pprint(data)
+    pprint(data)
 
 root_p1 = ttk.Frame(nb)
 #text1 = ScrolledText(root_p1)

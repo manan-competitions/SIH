@@ -1,6 +1,6 @@
 {
     "1": {
-        "health": {
+        "health": { 
            "breather_moisture": {"Thu Feb 28 11:04:26 2019": "35"},
            "buchholz_relay": {"Thu Feb 28 11:04:26 2019": "0"},
            "efficiency": {"Thu Feb 28 11:04:26 2019": "50"},
@@ -24,7 +24,30 @@
         }
     },
     "2": {
-        "health": {}
+        "health": {
+            "health": { 
+                "breather_moisture": {"Thu Feb 22 11:04:26 2019": "35"},
+                "buchholz_relay": {"Thu Feb 22 11:04:26 2019": "0"},
+                "efficiency": {"Thu Feb 22 11:04:26 2019": "70"},
+                "oil_level": {"Thu Feb 22 11:04:26 2019": "50"},
+                "oil_pump": {"Thu Feb 22 11:04:26 2019": "0"},
+                "oil_temp": {"Thu Feb 22 11:04:26 2019": "35"},
+                "power_out_p1": {"Thu Feb 22 11:04:26 2019": "100"},
+                "power_out_p2": {"Thu Feb 22 11:04:26 2019": "100"},
+                "power_out_p3": {"Thu Feb 22 11:04:26 2019": "100"},
+                "pressure_relay": {"Thu Feb 22 11:04:26 2019": "0"},
+                "vibration": {"Thu Feb 22 11:04:26 2019": "0"},
+                "voltage_in_p1": {"Thu Feb 22 11:04:26 2019": "15"},
+                "voltage_in_p2": {"Thu Feb 22 11:04:26 2019": "15"},
+                "voltage_in_p3": {"Thu Feb 22 11:04:26 2019": "15"},
+                "voltage_out_p1": {"Thu Feb 22 11:04:26 2019": "125"},
+                "voltage_out_p2": {"Thu Feb 22 11:04:26 2019": "125"},
+                "voltage_out_p3": {"Thu Feb 22 11:04:26 2019": "125"},
+                "winding_temp_1": {"Thu Feb 22 11:04:26 2019": "35"},
+                "winding_temp_2": {"Thu Feb 22 11:04:26 2019": "35"},
+                "winding_temp_3": {"Thu Feb 22 11:04:26 2019": "35"}
+             }
+        }
     },
     "3": {
         "health": {}

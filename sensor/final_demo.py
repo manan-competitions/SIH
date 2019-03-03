@@ -122,7 +122,7 @@ def submit_2():
         data['dissolved_metals'] += 1
     if mb7['relief'] == tk.SUNKEN:
         data['dissolved_metals'] += 1
-    data['dissolved_metals']  = str(data['dissolved_metals'])    
+    data['dissolved_metals']  = str(data['dissolved_metals'])
     try:
         r = requests.post(server_ip,json={"t_id": str(t_id), "new_data": {"health": data}})
         print('Request sent')
@@ -150,7 +150,7 @@ def submit_3():
 
     pprint(data)
 
-root_p1 = ttk.Frame(nb)
+root_p1 = ttk.Frame(nb,width=500)
 #text1 = ScrolledText(root_p1)
 #text1.pack(expand=1, fill="both")#root_p1.title("Virtual Sensors - Demo")
 #root_p1.geometry(f'{res[0]}x{res[1]}')
@@ -386,7 +386,7 @@ button_1 = tk.Button(root_p1, text="Submit", foreground="white", background="bla
                         width=25, font=('Helvetica',16), command=submit_1)
 button_1.place(x=500,y=635)
 
-root_p2 = ttk.Frame(nb)
+root_p2 = ttk.Frame(nb, width=500)
 
 title = tk.Label(root_p2, text=f'Oil Quality',background='#cdd2d8', font=('Helvetica',24))
 title.place(x=525,y=pad_y)
@@ -509,7 +509,7 @@ button_2 = tk.Button(root_p2, text="Submit", foreground="white", background="bla
                         width=25, font=('Helvetica',16), command=submit_2)
 button_2.place(x=500,y=635)
 
-root_p3 = ttk.Frame(nb)
+root_p3 = ttk.Frame(nb, width=500)
 
 title = tk.Label(root_p3, text=f'Dissolved Gas Analysis',background='#cdd2d8', font=('Helvetica',24))
 title.place(x=525,y=pad_y)
@@ -574,9 +574,9 @@ button_3 = tk.Button(root_p3, text="Submit", foreground="white", background="bla
 button_3.place(x=500,y=635)
 
 
-nb.add(root_p1, text='One')
-nb.add(root_p2, text='Two')
-nb.add(root_p3, text='Three')
+nb.add(root_p1, text='Normal Sensors')
+nb.add(root_p2, text='Oil quality Sensors')
+nb.add(root_p3, text='DGA sensors')
 
 nb.pack(expand=1, fill="both")
 

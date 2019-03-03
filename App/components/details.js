@@ -24,10 +24,12 @@ export default class DetailsScreen extends React.Component {
         <View>
           <Text style={{...styles.details, ...styles.tag}}>#{details.tokenId}</Text>
           <View style={styles.text}>
-            <Text style={styles.details}>Problem detail: {details.details}</Text>
-            <Text style={styles.details}>Previous Feedback: {details.feedback}</Text>
-            <Text style={styles.details}>Transformer Id: {details.transformer_id}</Text>
             <Text style={styles.details}>Date: {this.formatDate(details.date)}</Text>
+            <Text style={styles.details}>Transformer Id: {details.transformer_id}</Text>
+            <Text style={styles.details}>{details.details}</Text>
+            <Text style={styles.details}>Previous Feedback: {details.feedback}</Text>
+            
+            
           </View>
         </View>
         <TouchableHighlight onPress={() => this.props.navigation.navigate('Form', {id: details.tokenId})} 
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
 
   },
   prettyButton: {
-    backgroundColor: "#e94848",
+    backgroundColor: "#ed7199",
     color: "#fff",
     borderRadius: 25,
     padding: 10,
@@ -80,8 +82,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   text: {
-    // borderWidth: 2,
-    // borderColor: '#eee',
+    borderWidth: 2,
+    borderColor: '#eee',
+    borderRadius: 6,
     padding: 10,
     marginTop: 10,
     backgroundColor: "#eee",

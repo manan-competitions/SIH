@@ -16,6 +16,42 @@ class HomeScreen extends React.Component {
     this._onPressButton = this._onPressButton.bind(this);
     this.getDetails = this.getDetails.bind(this);
     this.pollDetails.bind(this)();
+    // this.state.newTickets = {"2": true, "1": false}
+    // this.state.details = [
+    // {
+    //     "tokenId": "2",
+    //     "transformer_id": "1",
+    //     "date": 1551564300.090039,
+    //     "is_resolved": false,
+    //     "is_new": false,
+    //     "details": "oil_pump sensor has generated a critical alert again",
+    //     "feedback": "Fghvh",
+    //     "products_used": {
+    //         "T-sensors": {
+    //             "amount": "1"
+    //         },
+    //         "Wires": {
+    //             "amount": "1"
+    //         }
+    //     }
+    // },
+    // {
+    //     "tokenId":"1",
+    //     "transformer_id": "1",
+    //     "date": 1551564300.090039,
+    //     "is_resolved": false,
+    //     "is_new": true,
+    //     "details": "oil_pump sensor has generated a critical alert",
+    //     "feedback": "Fghvh",
+    //     "products_used": {
+    //         "T-sensors": {
+    //             "amount": "1"
+    //         },
+    //         "Wires": {
+    //             "amount": "1"
+    //         }
+    //     }
+    // }]
   }
   static navigationOptions = {
     title: 'Transformer Healthcare',
@@ -74,17 +110,13 @@ class HomeScreen extends React.Component {
     
     var items = this.state.details.length > 0 ? this.state.details.slice().map((ele, i) =>{
       var s = {...styles.card, ...styles.row, ...styles.cardOuter};
-      
-      if(this.state.newTickets[ele.tokenId]){
-        
-        s = {...s, ...styles.newTicket}
-      }
+      var p = this.state.newTickets[ele.tokenId]? styles.newTicket: {};
       return (
         <TouchableHighlight onPress={() => this._onPressButton(i)} underlayColor="white" key={ele.tokenId}>
-          <View style={s}>
+          <View style={{...s, ...p}}>
             
-            <Text style={styles.card} >{ele.details}</Text>
-            <Text style={{...styles.card, ...styles.date}}>{this.formatDate(ele.date)}</Text>
+            <Text style={{...styles.card, ...p}} >{ele.details}</Text>
+            <Text style={{...styles.card, ...styles.date, ...p}}>{this.formatDate(ele.date)}</Text>
           </View>
         </TouchableHighlight>)
     }) : (<Text style={{padding: 20, justifyContent: 'center'}}> All fixed for now </Text>)
@@ -106,7 +138,9 @@ const RootStack = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#8071ed',
+        
+        backgroundColor: '#6b5aed',
+        
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
@@ -141,13 +175,13 @@ const styles = StyleSheet.create({
   date: {
     textAlign: 'right', 
     fontSize: 11,
-    color: "#0a022f",
+    color: "#222",
     fontWeight: '600'
   },
   cardOuter:{
     borderWidth: 1,
     borderColor: '#eee',
-    backgroundColor: '#d5d6f5',
+    backgroundColor: '#fff',
   },
   card: {
     borderRadius: 6,
@@ -155,6 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   newTicket: {
-    backgroundColor: '#ff9800'
+    backgroundColor: '#9fa8da',
+    color: "#fff"
   }
 });
